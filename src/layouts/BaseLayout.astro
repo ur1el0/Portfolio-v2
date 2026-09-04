@@ -1,5 +1,5 @@
 ---
-import { ClientRouter } from 'astro:transitions';
+import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -33,7 +33,7 @@ const {
       rel="stylesheet"
     />
 
-    <ClientRouter />
+    <ViewTransitions />
   </head>
   <body class="bg-[#090a0f] text-slate-400 min-h-screen font-sans selection:bg-sky-500/20 selection:text-sky-400 relative">
     <!-- Ambient Radial Spotlight (Brittany Chiang / p5aholic style) -->
