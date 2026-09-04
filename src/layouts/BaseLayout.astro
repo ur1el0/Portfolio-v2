@@ -9,21 +9,70 @@ interface Props {
 
 const {
   title = 'Roosc Zaño — Full-Stack Developer & Systems Architect',
-  description = 'Full-Stack Developer specializing in building scalable web applications with React, Django REST Framework, and PostgreSQL.',
+  description = 'Roosc Zaño is a BSIT Full-Stack Developer specializing in Django REST Framework, ASP.NET Core, React, PostgreSQL, Flutter, and Docker.',
 } = Astro.props;
+
+const personSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Roosc Zaño',
+  jobTitle: 'Full-Stack Developer',
+  alumniOf: {
+    '@type': 'EducationalOrganization',
+    name: 'Manuel S. Enverga University Foundation',
+  },
+  description: description,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Lucena',
+    addressRegion: 'Quezon',
+    addressCountry: 'Philippines',
+  },
+  sameAs: [
+    'https://github.com/ur1el0',
+    'https://www.linkedin.com/in/roosc-za%C3%B1o-08568a357/',
+    'https://linktr.ee/roosczano',
+  ],
+  knowsAbout: [
+    'Django REST Framework',
+    'ASP.NET Core',
+    'React',
+    'PostgreSQL',
+    'Flutter',
+    'Docker',
+    'Celery',
+    'Redis',
+    'Microsoft Azure',
+  ],
+});
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/assets/favicon.png" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
+    <meta name="author" content="Roosc Zaño" />
+    <meta name="keywords" content="Roosc Zaño, Roosc Zano, Full Stack Developer Lucena, Enverga University BSIT, Django REST, ASP.NET Core, PostgreSQL, React, Developer Portfolio" />
+
+    <!-- Google Personal SEO Entity Schema -->
+    <script type="application/ld+json" set:html={personSchema} />
+
+    <!-- Theme Initialization Script (Prevents Flickering) -->
+    <script is:inline>
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'light' || (!storedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+        document.documentElement.classList.add('light');
+      } else {
+        document.documentElement.classList.remove('light');
+      }
+    </script>
 
     <!-- Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,14 +84,14 @@ const {
 
     <ClientRouter />
   </head>
-  <body class="bg-bg-dark text-slate-400 min-h-screen font-sans selection:bg-accent-cyan/20 selection:text-accent-cyan relative">
+  <body class="bg-bg-dark text-slate-300 min-h-screen font-sans selection:bg-accent-cyan/20 selection:text-accent-cyan relative">
     <div
       id="spotlight"
       class="pointer-events-none fixed inset-0 z-30 transition duration-300"
       style="background: radial-gradient(600px circle at 0px 0px, hsl(var(--accent-cyan) / 0.08), transparent 80%);"
     ></div>
 
-    <div class="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
+    <div class="mx-auto min-h-screen max-w-7xl px-6 py-12 md:px-12 md:py-20 lg:px-16 lg:py-0">
       <slot />
     </div>
 

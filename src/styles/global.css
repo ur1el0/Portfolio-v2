@@ -5,19 +5,76 @@
 @layer base {
   :root {
     --bg-dark: #090a0f;
+    --text-heading: #f8fafc;
+    --text-body: #94a3b8;
     --card-surface: rgba(17, 24, 39, 0.4);
+    --border-subtle: rgba(255, 255, 255, 0.1);
+    --spotlight-color: rgba(56, 189, 248, 0.08);
+  }
+
+  html.light {
+    --bg-dark: #f8fafc;
+    --text-heading: #0f172a;
+    --text-body: #475569;
+    --card-surface: rgba(241, 245, 249, 0.8);
+    --border-subtle: rgba(15, 23, 42, 0.12);
+    --spotlight-color: rgba(14, 165, 233, 0.12);
   }
 
   html {
     background-color: var(--bg-dark);
-    color: #94a3b8;
+    color: var(--text-body);
     font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    color: #f8fafc;
+    color: var(--text-heading);
+    transition: color 0.25s ease;
+  }
+
+  /* Full Light Mode Overrides */
+  html.light body {
+    background-color: #f8fafc;
+    color: #475569;
+  }
+
+  html.light .text-slate-100,
+  html.light .text-slate-200 {
+    color: #0f172a !important;
+  }
+
+  html.light .text-slate-300,
+  html.light .text-slate-400 {
+    color: #475569 !important;
+  }
+
+  html.light .text-slate-500 {
+    color: #64748b !important;
+  }
+
+  html.light .bg-bg-dark\/75 {
+    background-color: rgba(248, 250, 252, 0.85) !important;
+  }
+
+  html.light .bg-bg-surface\/30,
+  html.light .bg-bg-surface\/40,
+  html.light .bg-bg-surface\/50 {
+    background-color: rgba(241, 245, 249, 0.9) !important;
+    border-color: rgba(15, 23, 42, 0.15) !important;
+  }
+
+  html.light dialog {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: rgba(15, 23, 42, 0.2) !important;
+  }
+
+  html.light iframe {
+    background-color: #f1f5f9 !important;
   }
 
   ::selection {
@@ -26,17 +83,16 @@
   }
 }
 
-/* Custom subtle scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(230, 25%, 5%);
+  background: var(--bg-dark);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--border-subtle);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(56, 189, 248, 0.4);
+  background: rgba(56, 189, 248, 0.5);
 }
