@@ -1,6 +1,6 @@
 ---
 title: "Gridy"
-summary: "A cross-platform barangay information and management system modernizing document requests, urgency-categorized issue reporting, and public announcements."
+summary: "A web and mobile barangay information and management system modernizing document requests, urgency-categorized issue reporting, and public announcements."
 featured: true
 order: 1
 role: "Lead & Full-Stack Developer"
