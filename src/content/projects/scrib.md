@@ -1,12 +1,12 @@
 ---
-title: "Scrib — Real-Time Multiplayer Word Game & DFS Engine"
+title: "Scrib"
 summary: "A real-time multiplayer Boggle-style word game and solver featuring an optimized Trie & DFS traversal engine evaluating 16-cube matrices against 170k words."
 featured: true
 order: 2
 role: "Creator & Full-Stack Engineer"
 period: "2026"
 techStack: ["React", "TypeScript", "Tailwind CSS", "Python", "Django", "WebSockets"]
-githubUrl: "https://github.com/ur1el0/Scribbage"
+githubUrl: "https://github.com/ur1el0/Scrib"
 liveUrl: "https://scrib-ni-roosc.vercel.app"
 metrics: ["170k+ Dictionary Trie Engine", "Django Channels WebSockets", "Sub-10ms Matrix Solver"]
 ---

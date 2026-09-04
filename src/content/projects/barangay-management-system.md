@@ -1,5 +1,5 @@
 ---
-title: "Gridy — Cross-Platform Barangay Information & Announcement Management System"
+title: "Gridy"
 summary: "An enterprise-grade local governance platform modernizing document requests, real-time push notification broadcasts, and municipal issue tracking."
 featured: true
 order: 1
