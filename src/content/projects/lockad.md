@@ -5,7 +5,7 @@ featured: true
 order: 3
 role: "Full-Stack Developer"
 period: "2025 - Present"
-techStack: ["React", "Vite", "Python", "Django", "Leaflet", "OpenRouteService"]
+techStack: ["JavaScript", "React", "Vite", "Python", "Django", "Leaflet", "OpenRouteService"]
 githubUrl: "https://github.com/ur1el0/Lock-Ad-v3.git"
 metrics: ["Route Overlay Engine", "Spatial Safety Mapping"]
 ---
