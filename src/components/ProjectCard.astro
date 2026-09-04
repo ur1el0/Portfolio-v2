@@ -1,0 +1,80 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  period: string;
+  role: string;
+  techStack: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+  slug: string;
+  metrics?: string[];
+}
+
+const { title, summary, period, role, techStack, githubUrl, liveUrl, slug, metrics } = Astro.props;
+---
+
+<div class="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/projects:opacity-50">
+  <!-- Subtle Hover Card Overlay -->
+  <div class="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-bg-surface/40 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] lg:group-hover:drop-shadow-lg"></div>
+
+  <!-- Left Column: Period & Role -->
+  <header class="z-10 mb-2 mt-1 text-xs font-mono font-semibold uppercase tracking-wide text-slate-500 sm:col-span-2">
+    {period}
+    <div class="text-[10px] text-slate-400 font-normal normal-case mt-0.5">{role}</div>
+  </header>
+
+  <!-- Right Column: Case Study Info -->
+  <div class="z-10 sm:col-span-6">
+    <h3 class="font-medium leading-snug text-slate-200">
+      <div>
+        <a href={`/projects/${slug}`} class="inline-flex items-baseline font-semibold leading-tight text-slate-200 hover:text-accent-cyan focus-visible:text-accent-cyan group/link text-base">
+          <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
+          <span>{title}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline-block h-4 w-4 shrink-0 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none ml-1 text-slate-400 group-hover/link:text-accent-cyan" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-8a.75.75 0 00-.75-.75h-8a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd"></path></svg>
+        </a>
+      </div>
+    </h3>
+
+    <p class="mt-2 text-sm leading-normal text-slate-400">
+      {summary}
+    </p>
+
+    <!-- Key Metrics Badges -->
+    {metrics && metrics.length > 0 && (
+      <ul class="mt-2 flex flex-wrap gap-2 text-[11px] font-mono text-accent-cyan/90">
+        {metrics.map((metric) => (
+          <li class="flex items-center gap-1">
+            <span class="h-1 w-1 rounded-full bg-accent-cyan"></span>
+            {metric}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <!-- Tech Stack Pills -->
+    <ul class="mt-4 flex flex-wrap gap-1.5" aria-label="Technologies used">
+      {techStack.map((tech) => (
+        <li class="rounded-full bg-accent-cyan/10 px-3 py-1 text-xs font-mono font-medium leading-5 text-accent-cyan">
+          {tech}
+        </li>
+      ))}
+    </ul>
+
+    <!-- Quick Links -->
+    <div class="mt-4 flex items-center gap-4 text-xs font-mono text-slate-400">
+      {githubUrl && (
+        <a href={githubUrl} target="_blank" rel="noreferrer" class="relative z-10 flex items-center gap-1 hover:text-accent-cyan transition-colors">
+          <span>GitHub</span>
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      )}
+      {liveUrl && (
+        <a href={liveUrl} target="_blank" rel="noreferrer" class="relative z-10 flex items-center gap-1 hover:text-accent-emerald transition-colors">
+          <span class="inline-block h-1.5 w-1.5 rounded-full bg-accent-emerald animate-pulse"></span>
+          <span>Live Demo</span>
+        </a>
+      )}
+    </div>
+  </div>
+</div>

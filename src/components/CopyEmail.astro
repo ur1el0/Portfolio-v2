@@ -1,0 +1,39 @@
+---
+interface Props {
+  email?: string;
+}
+
+const { email = "zanoroosc@gmail.com" } = Astro.props;
+---
+
+<div class="relative inline-block">
+  <button
+    id="copy-email-btn"
+    data-email={email}
+    class="group inline-flex items-center gap-2 rounded-full border border-border-subtle/10 bg-bg-surface/50 px-4 py-2 text-xs font-mono text-slate-300 backdrop-blur transition hover:border-accent-cyan/40 hover:text-accent-cyan active:scale-95"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-accent-cyan transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+    <span>{email}</span>
+    <span id="copy-status" class="ml-1 text-[10px] text-accent-emerald opacity-0 transition-opacity">Copied!</span>
+  </button>
+</div>
+
+<script>
+  const copyBtn = document.getElementById('copy-email-btn');
+  const copyStatus = document.getElementById('copy-status');
+
+  if (copyBtn && copyStatus) {
+    copyBtn.addEventListener('click', async () => {
+      const email = copyBtn.getAttribute('data-email');
+      if (email) {
+        await navigator.clipboard.writeText(email);
+        copyStatus.classList.remove('opacity-0');
+        setTimeout(() => {
+          copyStatus.classList.add('opacity-0');
+        }, 2000);
+      }
+    });
+  }
+</script>

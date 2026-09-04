@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={`${project.data.title} — Case Study`} description={project.data.summary}>
+  <div class="mx-auto max-w-3xl py-12 lg:py-20">
+    <!-- Back to Projects link -->
+    <a href="/#projects" class="group inline-flex items-center gap-2 font-mono text-xs font-semibold text-accent-cyan hover:underline mb-8">
+      <svg class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back to Projects
+    </a>
+
+    <!-- Header -->
+    <header class="mb-10">
+      <div class="text-xs font-mono font-semibold uppercase tracking-widest text-slate-500 mb-2">
+        {project.data.period} — {project.data.role}
+      </div>
+      <h1 class="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
+        {project.data.title}
+      </h1>
+      <p class="mt-4 text-base leading-relaxed text-slate-300">
+        {project.data.summary}
+      </p>
+
+      <!-- Tech stack pills -->
+      <div class="mt-6 flex flex-wrap gap-2">
+        {project.data.techStack.map((tech) => (
+          <span class="rounded-full bg-accent-cyan/10 px-3 py-1 text-xs font-mono font-medium text-accent-cyan">
+            {tech}
+          </span>
+        ))}
+      </div>
+    </header>
+
+    <!-- Markdown Content Body -->
+    <article class="prose prose-invert max-w-none prose-headings:text-slate-100 prose-headings:font-bold prose-p:text-slate-300 prose-p:leading-relaxed prose-li:text-slate-300 prose-strong:text-slate-100 prose-code:font-mono prose-code:text-accent-cyan mb-16">
+      <Content />
+    </article>
+
+    <Footer />
+  </div>
+</BaseLayout>
