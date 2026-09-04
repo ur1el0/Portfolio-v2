@@ -1,14 +1,18 @@
 ---
 title: "Lock-Ad"
-summary: "A safety-aware navigation platform for the Philippines that overlays walking routes with lighting quality, public infrastructure, weather risks, and incident reports."
+summary: "A full-stack commuter navigation platform designing end-to-end route-planning workflows with Django REST Framework and React."
 featured: true
 order: 3
-role: "Full-Stack Developer"
+role: "Personal Solo Project"
 period: "2025 - Present"
-techStack: ["JavaScript", "React", "Vite", "Python", "Django", "Leaflet", "OpenRouteService"]
+techStack: ["Django REST Framework", "React", "PostgreSQL", "Docker", "Python", "JavaScript"]
 githubUrl: "https://github.com/ur1el0/Lock-Ad-v3.git"
-metrics: ["Route Overlay Engine", "Spatial Safety Mapping"]
+metrics: ["End-to-End Route Workflows", "Docker Containerization", "Production PostgreSQL Schemas"]
 ---
 
 ### System Overview
-Lock-Ad provides safety-aware navigation routes by aggregating spatial dataset layers including street lighting, public infrastructure, incident reports, and weather data over OpenRouteService maps.
+Evolved a full-stack commuter navigation platform using Django REST Framework and React, designing end-to-end route-planning workflows.
+
+### Technical Implementation
+* **Application Services:** Containerized application services with Docker for scalable execution.
+* **Database & Workflows:** Configured PostgreSQL schemas and spatial layers for production deployment.

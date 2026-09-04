@@ -1,28 +1,20 @@
 ---
 title: "Gridy"
-summary: "An enterprise-grade local governance platform modernizing document requests, real-time push notification broadcasts, and municipal issue tracking."
+summary: "A cross-platform barangay information and management system modernizing document requests, urgency-categorized issue reporting, and public announcements."
 featured: true
 order: 1
-role: "Lead Full-Stack Developer & Architect"
-period: "2026"
-techStack: ["React", "TypeScript", "Django REST Framework", "PostgreSQL", "Flutter", "Docker", "Redis"]
+role: "Lead & Full-Stack Developer"
+period: "2026 - Present"
+techStack: ["Django REST Framework", "React", "Flutter", "PostgreSQL", "Celery", "Redis", "Docker", "Firebase FCM", "Cloudinary"]
 githubUrl: "https://github.com/ur1el0/Gridy"
 liveUrl: "https://gridy-nine.vercel.app"
-metrics: ["Role-Based Access Control (RBAC)", "Multi-Channel Push Pipeline", "Optimized Query Indexing"]
+metrics: ["HttpOnly JWT & Audit Logging", "OpenAPI-Driven Backend Contracts", "Celery & Redis Worker Pipeline"]
 ---
 
-### Problem Statement
-Traditional barangay operations in municipal government units face severe manual administrative overhead, physical queuing bottlenecks for document requests, and delayed emergency announcements due to fragmented communication channels.
+### System Overview
+Gridy serves as a cross-platform barangay information and management system, establishing OpenAPI-driven backend contracts and RBAC across resident, officer, and admin workflows.
 
-### Architectural Trade-offs
-* **Relational Schema vs. Document Store:** Selected PostgreSQL over MongoDB to ensure atomic transactions (ACID compliance) for municipal fee records, document verification statuses, and citizen identity mappings.
-* **REST API & Pub/Sub Queue:** Paired Django REST Framework with Redis task queues to handle asynchronous push notification delivery across mobile and web platforms without blocking client response threads.
-
-### Key Technical Obstacles Overcome
-1. **Multi-Tenant Role-Based Access Control (RBAC):** Implemented strict authorization scopes distinguishing municipal administrators, barangay officials, and public citizens at the API serializer level.
-2. **Offline-Resilient Local Sync:** Architected local caching mechanisms for mobile clients built with Flutter to maintain read capability during weak network conditions in rural barangays.
-3. **Database Query Optimization:** Reduced complex database query execution latency by indexing high-cardinality foreign key fields and implementing query isolation.
-
-### Measurable Outcomes
-* Streamlined document application processing times by automating request queues.
-* Delivered sub-second push notification delivery for emergency municipal announcements.
+### Architectural & Security Highlights
+* **Authentication & Endpoint Security:** Architected HttpOnly JWT cookie authentication, refresh-token rotation, and automated audit logging to enforce data privacy and endpoint security.
+* **Background Worker & Media Pipeline:** Integrated Celery and Redis for background processing, Firebase Cloud Messaging (FCM) for push notifications, and Cloudinary for media asset management.
+* **Services & Dashboards:** Engineered Django REST Framework services and React management dashboards for document requests, urgency-categorized issue reporting, and public announcements.

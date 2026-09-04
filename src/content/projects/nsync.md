@@ -1,14 +1,18 @@
 ---
 title: "NSync"
-summary: "A gamified knowledge retention mobile application built with an Android Kotlin frontend and Django REST backend."
+summary: "A cross-platform synchronization tool featuring a native Android user interface built with Jetpack Compose and automated background Python utilities."
 featured: true
 order: 5
-role: "Mobile & Backend Developer"
+role: "Solo Android Final Project"
 period: "2026"
-techStack: ["Kotlin", "Android SDK", "Python", "Django", "SQLite"]
+techStack: ["Kotlin", "Jetpack Compose", "Django REST Framework", "Docker", "Python"]
 githubUrl: "https://github.com/ur1el0/NSync.git"
-metrics: ["Android Native UI", "REST Sync Engine"]
+metrics: ["Native Jetpack Compose UI", "Kotlin Core Sync Modules", "Python Background Utilities"]
 ---
 
 ### System Overview
-NSync allows users to create notes, flashcards, and review sessions. Features accuracy tracking, user experience points (XP), streaks, and spaced repetition review cards.
+Developed a cross-platform synchronization tool featuring a native Android user interface built with Jetpack Compose.
+
+### Technical Implementation
+* **Android Client:** Built native mobile UI components in Kotlin utilizing Android Jetpack Compose declarative paradigms.
+* **Backend Sync Engine:** Implemented core backend synchronization modules in Kotlin and automated background utilities in Python with Django REST Framework services.
