@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -33,26 +33,24 @@ const {
       rel="stylesheet"
     />
 
-    <ViewTransitions />
+    <ClientRouter />
   </head>
-  <body class="bg-[#090a0f] text-slate-400 min-h-screen font-sans selection:bg-sky-500/20 selection:text-sky-400 relative">
-    <!-- Ambient Radial Spotlight (Brittany Chiang / p5aholic style) -->
+  <body class="bg-bg-dark text-slate-400 min-h-screen font-sans selection:bg-accent-cyan/20 selection:text-accent-cyan relative">
     <div
       id="spotlight"
       class="pointer-events-none fixed inset-0 z-30 transition duration-300"
-      style="background: radial-gradient(600px circle at 0px 0px, rgba(56, 189, 248, 0.07), transparent 80%);"
+      style="background: radial-gradient(600px circle at 0px 0px, hsl(var(--accent-cyan) / 0.08), transparent 80%);"
     ></div>
 
     <div class="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
       <slot />
     </div>
 
-    <!-- Zero-dependency Spotlight Tracker -->
     <script>
       const spotlight = document.getElementById('spotlight');
       if (spotlight) {
         window.addEventListener('mousemove', (e) => {
-          spotlight.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(56, 189, 248, 0.07), transparent 80%)`;
+          spotlight.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, hsl(var(--accent-cyan) / 0.08), transparent 80%)`;
         });
       }
     </script>
