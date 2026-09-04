@@ -9,15 +9,14 @@ import { getCollection } from 'astro:content';
 const projects = await getCollection('projects');
 const sortedProjects = projects.sort((a, b) => a.data.order - b.data.order);
 
-// Curated high-signal credentials only
 const highSignalCredentials = [
-  { title: 'Microsoft Certified: Azure Fundamentals (AZ-900)', issuer: 'Microsoft', credentialId: 'AZ900-2026-8812', date: '2026', fileHref: '/assets/certifications/az900-cert.pdf' },
-  { title: 'Top Performer — OpeniT Applied Full-Stack Bootcamp', issuer: 'OpeniT', credentialId: 'OPENIT-TOP-2026', date: '2026', fileHref: '/assets/participation/topPerformer.jpg' },
-  { title: 'Flutter and Dart: Developing iOS, Android, and Mobile Apps', issuer: 'Coursera', credentialId: 'COURSERA-FLUTTER-2025', date: '2025', fileHref: '/assets/certifications/Coursera-flutter&dart-cert.pdf' },
-  { title: 'Introduction to Front-End Development', issuer: 'Coursera (Meta)', credentialId: 'META-FE-2025', date: '2025', fileHref: '/assets/certifications/Coursera-frontenddev-cert.pdf' },
-  { title: 'Database Design and Basic SQL in PostgreSQL', issuer: 'Coursera (Univ. of Michigan)', credentialId: 'UMICH-PG-2025', date: '2025', fileHref: '/assets/certifications/Coursera-postgres-cert.pdf' },
-  { title: 'Participant & Team Leader — DLSU HackerCup', issuer: 'De La Salle University', credentialId: 'DLSU-HC-2025', date: '2025', fileHref: '/assets/participation/hackercup.pdf' },
-  { title: 'Participant — Inventi Hackathon Challenge', issuer: 'Inventi', credentialId: 'INVENTI-HC-2025', date: '2025', fileHref: '/assets/participation/inventi.jpg' },
+  { title: 'Microsoft Certified: Azure Fundamentals (AZ-900)', issuer: 'Microsoft', date: '2026', fileHref: '/assets/certifications/az900-cert.pdf' },
+  { title: 'Top Performer — OpeniT Applied Full-Stack & Data Science Bootcamp', issuer: 'OpeniT', date: '2026', fileHref: '/assets/participation/topPerformer.jpg' },
+  { title: 'Flutter and Dart: Developing iOS, Android, and Mobile Apps', issuer: 'Coursera', date: '2025', fileHref: '/assets/certifications/Coursera-flutter&dart-cert.pdf' },
+  { title: 'Operating System Virtualization', issuer: 'Illinois Institute of Technology', date: '2025', fileHref: '/assets/certifications/Coursera-os-cert.pdf' },
+  { title: 'Database Design and Basic SQL in PostgreSQL', issuer: 'Univ. of Michigan (Coursera)', date: '2025', fileHref: '/assets/certifications/Coursera-postgres-cert.pdf' },
+  { title: 'Participant & Team Leader — DLSU HackerCup', issuer: 'De La Salle University', date: '2025', fileHref: '/assets/participation/hackercup.pdf' },
+  { title: 'Participant — Inventi Hackathon Challenge', issuer: 'Inventi', date: '2025', fileHref: '/assets/participation/inventi.jpg' },
 ];
 ---
 
@@ -25,18 +24,18 @@ const highSignalCredentials = [
   <div class="lg:flex lg:justify-between lg:gap-4">
     <Header />
 
-    <main id="content" class="pt-24 lg:w-1/2 lg:py-24">
+    <main id="content" class="pt-24 lg:w-[54%] lg:py-24">
       <!-- Section 01: About -->
       <section id="about" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-32 lg:scroll-mt-24" aria-label="About me">
         <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-bg-dark/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-0 lg:w-auto lg:opacity-0">
           <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">01. About</h2>
         </div>
-        <div class="space-y-4 text-sm leading-relaxed text-slate-400">
+        <div class="space-y-4 text-lg leading-relaxed text-slate-400">
           <p>
-            I am a Full-Stack Developer based in Lucena, Philippines. I build web and mobile applications using React, ASP.NET Core, Django REST Framework, PostgreSQL, and Flutter.
+            I am a BSIT student specializing in Web and Mobile Application Development at Manuel S. Enverga University Foundation (<span class="font-medium text-slate-200">GWA: 1.5937, Dean's Lister</span>).
           </p>
           <p>
-            My work focuses on relational database design, REST API development, role-based access control, and asynchronous task execution.
+            I focus on building secure REST APIs, cross-platform web/mobile applications, asynchronous worker pipelines with <span class="font-medium text-slate-200">Celery & Redis</span>, and containerized systems using <span class="font-medium text-slate-200">Django REST Framework</span>, <span class="font-medium text-slate-200">ASP.NET Core</span>, <span class="font-medium text-slate-200">React</span>, <span class="font-medium text-slate-200">Flutter</span>, and <span class="font-medium text-slate-200">PostgreSQL</span>.
           </p>
         </div>
       </section>
@@ -67,50 +66,66 @@ const highSignalCredentials = [
         </div>
       </section>
 
-      <!-- Section 03: Skills & High-Signal Credentials -->
+      <!-- Section 03: Skills, Education & Credentials -->
       <section id="skills" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-32 lg:scroll-mt-24" aria-label="Skills and credentials">
         <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-bg-dark/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-0 lg:w-auto lg:opacity-0">
-          <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">03. Skills & Credentials</h2>
+          <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">03. Education & Credentials</h2>
         </div>
 
         <div class="space-y-8">
+          <!-- Education -->
           <div>
-            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-3">Technical Skills</h3>
+            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-3">Education</h3>
+            <div class="space-y-3">
+              <div class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-4">
+                <div class="flex items-center justify-between">
+                  <span class="font-medium text-slate-200 text-base">Manuel S. Enverga University Foundation</span>
+                  <span class="text-xs font-mono text-slate-500">2023 – Present</span>
+                </div>
+                <div class="mt-1 text-sm text-slate-400">BS in Information Technology (Web & Mobile Application)</div>
+                <div class="mt-1 text-xs font-mono text-accent-cyan">GWA: 1.5937 · Dean's Lister</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Technical Stack -->
+          <div>
+            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-3">Technical Stack</h3>
             <div class="flex flex-wrap gap-2">
-              <SkillBadge name="React" category="frontend" />
-              <SkillBadge name="TypeScript" category="frontend" />
-              <SkillBadge name="Tailwind CSS" category="frontend" />
               <SkillBadge name="Python" category="backend" />
+              <SkillBadge name="C#" category="backend" />
+              <SkillBadge name="TypeScript" category="frontend" />
+              <SkillBadge name="Kotlin" category="frontend" />
               <SkillBadge name="Django REST" category="backend" />
               <SkillBadge name="ASP.NET Core" category="backend" />
+              <SkillBadge name="React" category="frontend" />
+              <SkillBadge name="Flutter" category="frontend" />
               <SkillBadge name="PostgreSQL" category="backend" />
+              <SkillBadge name="Redis / Celery" category="backend" />
               <SkillBadge name="Docker" category="cloud" />
               <SkillBadge name="Microsoft Azure" category="cloud" />
             </div>
           </div>
 
-          <!-- Curated High-Signal Accreditations -->
+          <!-- Accreditations & Competitions -->
           <div>
             <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-accent-cyan mb-3">Verified Accreditations & Competitions</h3>
             <ul class="space-y-3">
               {highSignalCredentials.map((cert) => (
-                <li class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-3 hover:border-accent-cyan/40 transition-colors">
+                <li class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-3.5 hover:border-accent-cyan/40 transition-colors">
                   <button
-                    class="w-full text-left cert-modal-btn cursor-pointer"
+                    class="w-full text-left cert-modal-btn cursor-pointer group"
                     data-title={cert.title}
                     data-issuer={cert.issuer}
-                    data-id={cert.credentialId}
                     data-file={cert.fileHref}
                   >
                     <div class="flex items-center justify-between">
-                      <span class="font-medium text-slate-200 text-sm hover:text-accent-cyan">{cert.title}</span>
+                      <span class="font-medium text-slate-200 text-sm group-hover:text-accent-cyan transition-colors">{cert.title}</span>
                       <span class="text-xs font-mono text-slate-500">{cert.date}</span>
                     </div>
-                    <div class="mt-1 text-xs font-mono text-accent-cyan">
-                      ID: {cert.credentialId} · <span class="text-slate-400">{cert.issuer}</span>
-                    </div>
-                    <div class="mt-2 text-[11px] font-mono text-slate-500 underline">
-                      Click to view certificate
+                    <div class="mt-1 flex items-center justify-between text-xs font-mono">
+                      <span class="text-slate-400">{cert.issuer}</span>
+                      <span class="text-[11px] text-accent-cyan underline group-hover:text-accent-cyan/80">View Certificate</span>
                     </div>
                   </button>
                 </li>
@@ -124,12 +139,11 @@ const highSignalCredentials = [
     </main>
   </div>
 
-  <!-- Certificate Preview Modal -->
   <dialog id="cert-modal" class="fixed inset-0 z-50 rounded-xl bg-bg-dark/95 border border-border-subtle/20 p-6 text-slate-200 backdrop-blur-md max-w-2xl w-full mx-auto my-auto backdrop:bg-black/80">
     <div class="flex items-center justify-between pb-4 border-b border-border-subtle/10">
       <div>
         <h3 id="modal-title" class="text-lg font-bold text-slate-100"></h3>
-        <p id="modal-id" class="text-xs font-mono text-accent-cyan mt-1"></p>
+        <p id="modal-issuer" class="text-xs font-mono text-accent-cyan mt-1"></p>
       </div>
       <button id="close-modal" class="text-slate-400 hover:text-slate-100 font-mono text-sm px-2 py-1 cursor-pointer">✕ Close</button>
     </div>
@@ -141,18 +155,18 @@ const highSignalCredentials = [
   <script>
     const modal = document.getElementById('cert-modal') as HTMLDialogElement;
     const modalTitle = document.getElementById('modal-title');
-    const modalId = document.getElementById('modal-id');
+    const modalIssuer = document.getElementById('modal-issuer');
     const modalFrame = document.getElementById('modal-frame') as HTMLIFrameElement;
     const closeModal = document.getElementById('close-modal');
 
     document.querySelectorAll('.cert-modal-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         const title = btn.getAttribute('data-title') || '';
-        const id = btn.getAttribute('data-id') || '';
+        const issuer = btn.getAttribute('data-issuer') || '';
         const file = btn.getAttribute('data-file') || '';
 
         if (modalTitle) modalTitle.textContent = title;
-        if (modalId) modalId.textContent = `Credential ID: ${id}`;
+        if (modalIssuer) modalIssuer.textContent = `Issuer: ${issuer}`;
         if (modalFrame) modalFrame.src = file;
         if (modal) modal.showModal();
       });
