@@ -4,12 +4,14 @@ import CopyEmail from './CopyEmail.astro';
 
 <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:py-24">
   <div>
-    <div class="mb-6 flex items-center gap-4">
-      <img
-        src="/assets/hero/profile.jpg"
-        alt="Roosc Zaño Profile Photo"
-        class="h-20 w-20 rounded-full object-cover border-2 border-accent-cyan/40 shadow-md transition-transform hover:scale-105"
-      />
+    <div class="mb-8 flex items-center gap-4">
+      <div class="h-36 w-36 sm:h-40 sm:w-40 overflow-hidden rounded-full border-2 border-accent-cyan/40 shadow-lg transition-transform hover:scale-105">
+        <img
+          src="/assets/hero/profile.jpg"
+          alt="Roosc Zaño Profile Photo"
+          class="h-full w-full object-cover object-[center_18%] scale-135"
+        />
+      </div>
     </div>
     <div class="flex items-center justify-between">
       <h1 class="text-5xl font-bold tracking-tight text-slate-100 sm:text-6xl header-title transition-colors">
