@@ -3,7 +3,7 @@ title: "Paldo"
 summary: "A centralized scholarship platform featuring eligibility filtering, application tracking, and automated announcements."
 featured: true
 order: 4
-role: "Full-Stack Developer"
+role: "Backend Developer"
 period: "2026"
 techStack: ["ASP.NET Core", "React", "PostgreSQL", "Docker"]
 githubUrl: "https://github.com/pak-pow/OpenIT_Capstone.git"

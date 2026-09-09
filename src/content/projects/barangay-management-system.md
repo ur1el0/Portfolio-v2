@@ -3,7 +3,7 @@ title: "Gridy"
 summary: "A web and mobile barangay information and management system modernizing document requests, urgency-categorized issue reporting, and public announcements."
 featured: true
 order: 1
-role: "Lead & Full-Stack Developer"
+role: "Lead Backend Developer"
 period: "2026 - Present"
 techStack: ["Django REST Framework", "React", "Flutter", "PostgreSQL", "Celery", "Redis", "Docker", "Firebase FCM", "Cloudinary"]
 githubUrl: "https://github.com/ur1el0/Gridy"
