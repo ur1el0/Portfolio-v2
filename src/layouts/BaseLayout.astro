@@ -9,7 +9,7 @@ interface Props {
 
 const {
   title = 'Roosc Zaño — Backend Developer & Systems Architect',
-  description = 'Roosc Zaño is a BSIT Backend Developer specializing in Django REST Framework, ASP.NET Core, PostgreSQL, Celery, Redis, and Docker.',
+  description = 'Roosc Zaño is a BSIT Backend Developer specializing in Django REST Framework, ASP.NET Core, PostgreSQL, and Docker.',
 } = Astro.props;
 
 const personSchema = JSON.stringify({
@@ -40,8 +40,6 @@ const personSchema = JSON.stringify({
     'PostgreSQL',
     'Flutter',
     'Docker',
-    'Celery',
-    'Redis',
     'Microsoft Azure',
   ],
 });
@@ -59,7 +57,7 @@ const personSchema = JSON.stringify({
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content="Roosc Zaño" />
-    <meta name="keywords" content="Roosc Zaño, Roosc Zano, Backend Developer Lucena, Enverga University BSIT, Django REST, ASP.NET Core, PostgreSQL, Celery, Redis, Docker, Developer Portfolio" />
+    <meta name="keywords" content="Roosc Zaño, Roosc Zano, Backend Developer Lucena, Enverga University BSIT, Django REST, ASP.NET Core, PostgreSQL, Docker, Developer Portfolio" />
 
     <!-- Google Personal SEO Entity Schema -->
     <script type="application/ld+json" set:html={personSchema} />
