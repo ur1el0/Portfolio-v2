@@ -14,6 +14,8 @@ const projectsCollection = defineCollection({
     techStack: z.array(z.string()),
     githubUrl: z.string().url().optional(),
     liveUrl: z.string().url().optional(),
+    image: z.string().optional(),
+    kicker: z.string().optional(),
     metrics: z.array(z.string()).optional(),
   }),
 });
