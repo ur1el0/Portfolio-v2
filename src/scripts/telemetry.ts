@@ -103,3 +103,4 @@ if (typeof window !== 'undefined') {
     window.addEventListener('load', initTelemetry);
   }
 }
+
