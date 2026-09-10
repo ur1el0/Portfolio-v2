@@ -5,15 +5,33 @@ featured: true
 order: 2
 role: "Creator & Backend Engineer"
 period: "2026"
+kicker: "Practice tool / Creator & Backend Engineer"
+image: "/assets/projects/scrib.png"
 techStack: ["React", "TypeScript", "Tailwind CSS", "Python", "Django", "WebSockets"]
 githubUrl: "https://github.com/ur1el0/Scrib"
 liveUrl: "https://scrib-ni-roosc.vercel.app"
 metrics: ["170k+ Dictionary Trie Engine", "Django Channels WebSockets", "Sub-10ms Matrix Solver"]
 ---
 
-### Problem Statement
-Building a synchronous multiplayer word game requires high-frequency state updates, zero-latency validation of user-submitted words, and rapid matrix solving algorithms without server lockup.
+## Context
+Synchronous multiplayer word games demand instantaneous dictionary validation, synchronized room state across connected peers, and rapid Boggle matrix resolution without blocking server event loops.
 
-### Key Technical Obstacles Overcome
-* **Trie Data Structure & DFS Traversal:** Designed a prefix trie memory structure in Python coupled with Depth-First Search (DFS) matrix traversal to evaluate thousands of valid word paths across a 4x4 grid in under 10ms.
-* **WebSocket State Synchronization:** Leveraged Django Channels to broadcast player turns, score updates, and time-sync events across connected rooms.
+## What I built
+* Designed an in-memory Prefix Trie structure in Python coupled with a Depth-First Search (DFS) traversal solver that indexes and evaluates 170,000+ words across a 4x4 matrix in under 10ms.
+* Implemented real-time room orchestration and state broadcasting using Django Channels WebSockets.
+* Built an interactive React and TypeScript frontend with live turn timers, submitted word tracking, and automated score tallies.
+
+## Technical approach
+* The dictionary is loaded into memory as a trie node graph at server initialization, enabling O(L) prefix lookups (where L is word length) instead of repetitive O(N) list searches.
+* The board solver executes a DFS with 8-directional neighbor exploration and cell-visited backtracking, pruning search paths immediately when a prefix is absent from the Trie.
+* Django Channels handles WebSocket connection groups, broadcasting game transitions (lobby, round active, scoring, round end) to all players in a room without polling overhead.
+* Client state manages local input buffers and word queues, reconciling confirmed submissions against WebSocket state broadcasts.
+
+## Security and verification
+* Word validation occurs authoritatively on the backend Trie engine; client-submitted word lists are rejected if cells are non-contiguous or reused.
+* WebSocket connection handlers validate room IDs and session payloads to prevent unauthorized state injection across active rooms.
+* Unit tests verify Trie insertion, prefix matching, DFS board solving against known grid fixtures, and dictionary lookup edge cases.
+
+## Current limits
+* In-memory Trie is held per-process in Python; multi-server scaling would require shared memory caching or distributed worker sync.
+* Designed as an algorithmic practice and competitive word game MVP; persistent match leaderboards are pending future database backing.
