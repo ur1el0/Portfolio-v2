@@ -60,7 +60,7 @@ const personSchema = JSON.stringify({
     <meta name="keywords" content="Roosc Zaño, Roosc Zano, Backend Developer Lucena, Enverga University BSIT, Django REST, ASP.NET Core, PostgreSQL, Docker, Developer Portfolio" />
 
     <!-- Google Personal SEO Entity Schema -->
-    <script type="application/ld+json" set:html={personSchema} />
+    <script type="application/ld+json" is:inline set:html={personSchema} />
 
     <!-- Theme Initialization Script (Prevents Flickering) -->
     <script is:inline>
@@ -79,6 +79,9 @@ const personSchema = JSON.stringify({
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Visitor Telemetry & Notification Script -->
+    <script src="../scripts/telemetry.ts"></script>
 
     <ClientRouter />
   </head>
