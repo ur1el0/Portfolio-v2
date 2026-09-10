@@ -8,24 +8,44 @@ interface Props {
   githubUrl?: string;
   liveUrl?: string;
   slug: string;
+  image?: string;
+  kicker?: string;
   metrics?: string[];
 }
 
-const { title, summary, period, role, techStack, githubUrl, liveUrl, slug, metrics } = Astro.props;
+const { title, summary, period, role, techStack, githubUrl, liveUrl, slug, image, kicker, metrics } = Astro.props;
 ---
 
-<div class="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/projects:opacity-50">
+<div class="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-6 md:gap-4 lg:hover:!opacity-100 lg:group-hover/projects:opacity-50">
   <!-- Subtle Hover Card Overlay -->
   <div class="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-bg-surface/40 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] lg:group-hover:drop-shadow-lg"></div>
 
-  <!-- Left Column: Period & Role -->
-  <header class="z-10 mb-2 mt-1 text-sm font-mono font-semibold uppercase tracking-wide text-slate-400 sm:col-span-2">
-    {period}
-    <div class="text-xs text-slate-400 font-normal normal-case mt-1">{role}</div>
-  </header>
+  <!-- Left Column: App Screenshot Thumbnail & Metadata -->
+  <div class="z-10 mb-3 sm:mb-0 sm:col-span-3">
+    {image && (
+      <a href={`/projects/${slug}`} class="block overflow-hidden rounded-lg border border-border-subtle/30 bg-bg-surface/50 shadow-sm transition duration-300 group-hover:border-accent-cyan/40 mb-3">
+        <img
+          src={image}
+          alt={`${title} preview thumbnail`}
+          class="aspect-video w-full object-cover object-top transition duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+      </a>
+    )}
+    <div class="text-xs font-mono font-semibold uppercase tracking-wide text-slate-400">
+      {period}
+    </div>
+    <div class="text-xs text-slate-400 font-normal mt-0.5">{role}</div>
+  </div>
 
   <!-- Right Column: Case Study Info -->
-  <div class="z-10 sm:col-span-6">
+  <div class="z-10 sm:col-span-5">
+    {kicker && (
+      <div class="text-xs font-mono font-medium text-accent-cyan tracking-wide mb-1.5">
+        {kicker}
+      </div>
+    )}
+
     <h3 class="font-medium leading-snug text-slate-200">
       <div>
         <a href={`/projects/${slug}`} class="inline-flex items-baseline font-bold leading-tight text-slate-100 hover:text-accent-cyan focus-visible:text-accent-cyan group/link text-xl sm:text-2xl">
@@ -36,13 +56,13 @@ const { title, summary, period, role, techStack, githubUrl, liveUrl, slug, metri
       </div>
     </h3>
 
-    <p class="mt-3 text-base sm:text-lg leading-relaxed text-slate-300">
+    <p class="mt-2.5 text-sm sm:text-base leading-relaxed text-slate-300">
       {summary}
     </p>
 
     <!-- Key Metrics Badges -->
     {metrics && metrics.length > 0 && (
-      <ul class="mt-3 flex flex-wrap gap-2.5 text-xs font-mono text-accent-cyan font-medium">
+      <ul class="mt-3 flex flex-wrap gap-2 text-xs font-mono text-accent-cyan font-medium">
         {metrics.map((metric) => (
           <li class="flex items-center gap-1.5">
             <span class="h-1.5 w-1.5 rounded-full bg-accent-cyan"></span>
@@ -53,20 +73,24 @@ const { title, summary, period, role, techStack, githubUrl, liveUrl, slug, metri
     )}
 
     <!-- Tech Stack Pills -->
-    <ul class="mt-4 flex flex-wrap gap-2" aria-label="Technologies used">
+    <ul class="mt-3.5 flex flex-wrap gap-1.5" aria-label="Technologies used">
       {techStack.map((tech) => (
-        <li class="rounded-full bg-accent-cyan/10 px-3.5 py-1.5 text-xs font-mono font-semibold leading-5 text-accent-cyan">
+        <li class="rounded-full bg-accent-cyan/10 px-2.5 py-1 text-xs font-mono font-medium leading-4 text-accent-cyan">
           {tech}
         </li>
       ))}
     </ul>
 
     <!-- Quick Links -->
-    <div class="mt-5 flex items-center gap-5 text-sm font-mono text-slate-300 font-medium">
+    <div class="mt-4 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-300 font-medium">
+      <a href={`/projects/${slug}`} class="relative z-10 flex items-center gap-1 hover:text-accent-cyan transition-colors text-slate-200">
+        <span>View case study</span>
+        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
       {githubUrl && (
         <a href={githubUrl} target="_blank" rel="noreferrer" class="relative z-10 flex items-center gap-1.5 hover:text-accent-cyan transition-colors">
           <span>GitHub</span>
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
       )}
       {liveUrl && (

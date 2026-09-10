@@ -9,14 +9,62 @@ import { getCollection } from 'astro:content';
 const projects = await getCollection('projects');
 const sortedProjects = projects.sort((a, b) => a.data.order - b.data.order);
 
-const highSignalCredentials = [
-  { title: 'Microsoft Certified: Azure Fundamentals (AZ-900)', issuer: 'Microsoft', date: '2026', fileHref: '/assets/certifications/az900-cert.pdf' },
-  { title: 'Top Performer — OpeniT Applied Full-Stack & Data Science Bootcamp', issuer: 'OpeniT', date: '2026', fileHref: '/assets/participation/topPerformer.jpg' },
-  { title: 'Flutter and Dart: Developing iOS, Android, and Mobile Apps', issuer: 'Coursera', date: '2025', fileHref: '/assets/certifications/Coursera-flutter&dart-cert.pdf' },
-  { title: 'Operating System Virtualization', issuer: 'Illinois Institute of Technology', date: '2025', fileHref: '/assets/certifications/Coursera-os-cert.pdf' },
-  { title: 'Database Design and Basic SQL in PostgreSQL', issuer: 'Univ. of Michigan (Coursera)', date: '2025', fileHref: '/assets/certifications/Coursera-postgres-cert.pdf' },
-  { title: 'Participant & Team Leader — DLSU HackerCup', issuer: 'De La Salle University', date: '2025', fileHref: '/assets/participation/hackercup.pdf' },
-  { title: 'Participant — Inventi Hackathon Challenge', issuer: 'Inventi', date: '2025', fileHref: '/assets/participation/inventi.jpg' },
+const awardsAndCompetitions = [
+  {
+    title: 'Top Performer — Open iT Applied Full-Stack & Data Science Bootcamp',
+    issuer: 'Open iT',
+    date: '2026',
+    description: 'Recognized as Top Performer in an intensive multi-month bootcamp covering ASP.NET Core, React, relational database schemas, and Docker containerization.',
+    fileHref: '/assets/participation/topPerformer.jpg',
+  },
+  {
+    title: 'Participant & Team Leader — DLSU HackerCup',
+    issuer: 'De La Salle University',
+    date: '2025',
+    description: 'Led a 4-person collegiate engineering team designing real-time civic disaster response and community coordination platforms under 24-hour hackathon constraints.',
+    fileHref: '/assets/participation/hackercup.pdf',
+  },
+  {
+    title: 'Participant — Inventi Hackathon Challenge',
+    issuer: 'Inventi',
+    date: '2025',
+    description: 'Competed in rapid software prototyping, architecting API endpoints and data models under accelerated delivery time constraints.',
+    fileHref: '/assets/participation/inventi.jpg',
+  },
+];
+
+const industryCertifications = [
+  {
+    title: 'Microsoft Certified: Azure Fundamentals (AZ-900)',
+    issuer: 'Microsoft',
+    date: '2026',
+    description: 'Validates foundational cloud architecture concepts, Azure core services, security governance, resource compliance, and identity protection.',
+    fileHref: '/assets/certifications/az900-cert.pdf',
+  },
+];
+
+const professionalTraining = [
+  {
+    title: 'Database Design and Basic SQL in PostgreSQL',
+    issuer: 'University of Michigan (Coursera)',
+    date: '2025',
+    description: 'Relational database schema modeling, primary/foreign key normalization, SQL query optimization, and transaction boundaries.',
+    fileHref: '/assets/certifications/Coursera-postgres-cert.pdf',
+  },
+  {
+    title: 'Operating System Virtualization',
+    issuer: 'Illinois Institute of Technology (Coursera)',
+    date: '2025',
+    description: 'Hardware virtualization primitives, container kernel namespaces, cgroups, process scheduling, and resource isolation boundaries.',
+    fileHref: '/assets/certifications/Coursera-os-cert.pdf',
+  },
+  {
+    title: 'Flutter and Dart: Developing iOS, Android, and Mobile Apps',
+    issuer: 'Coursera',
+    date: '2025',
+    description: 'State management paradigms, widget lifecycle architecture, asynchronous Dart pipelines, and cross-platform native mobile compilation.',
+    fileHref: '/assets/certifications/Coursera-flutter&dart-cert.pdf',
+  },
 ];
 ---
 
@@ -58,6 +106,8 @@ const highSignalCredentials = [
                   githubUrl={project.data.githubUrl}
                   liveUrl={project.data.liveUrl}
                   slug={project.id}
+                  image={project.data.image}
+                  kicker={project.data.kicker}
                   metrics={project.data.metrics}
                 />
               </li>
@@ -72,10 +122,10 @@ const highSignalCredentials = [
           <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">03. Education & Credentials</h2>
         </div>
 
-        <div class="space-y-8">
+        <div class="space-y-10">
           <!-- Education & Training -->
           <div>
-            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-3">Education & Training</h3>
+            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-3">Education & Academic Background</h3>
             <div class="space-y-3">
               <div class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-4">
                 <div class="flex items-center justify-between">
@@ -113,27 +163,88 @@ const highSignalCredentials = [
             </div>
           </div>
 
-          <!-- Accreditations & Competitions -->
+          <!-- Awards & Competitions -->
           <div>
-            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-accent-cyan mb-3">Verified Accreditations & Competitions</h3>
+            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-accent-cyan mb-3">Awards & Competitions</h3>
             <ul class="space-y-3">
-              {highSignalCredentials.map((cert) => (
-                <li class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-3.5 hover:border-accent-cyan/40 transition-colors">
-                  <button
-                    class="w-full text-left cert-modal-btn cursor-pointer group"
-                    data-title={cert.title}
-                    data-issuer={cert.issuer}
-                    data-file={cert.fileHref}
-                  >
-                    <div class="flex items-center justify-between">
-                      <span class="font-medium text-slate-200 text-sm group-hover:text-accent-cyan transition-colors">{cert.title}</span>
-                      <span class="text-xs font-mono text-slate-500">{cert.date}</span>
-                    </div>
-                    <div class="mt-1 flex items-center justify-between text-xs font-mono">
-                      <span class="text-slate-400">{cert.issuer}</span>
-                      <span class="text-[11px] text-accent-cyan underline group-hover:text-accent-cyan/80">View Certificate</span>
-                    </div>
-                  </button>
+              {awardsAndCompetitions.map((item) => (
+                <li class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-4 hover:border-accent-cyan/40 transition-colors">
+                  <div class="flex items-baseline justify-between gap-2">
+                    <span class="font-medium text-slate-200 text-sm">{item.title}</span>
+                    <span class="text-xs font-mono text-slate-500 shrink-0">{item.date}</span>
+                  </div>
+                  <p class="mt-1.5 text-xs text-slate-400 leading-relaxed">
+                    {item.description}
+                  </p>
+                  <div class="mt-3 flex items-center justify-between text-xs font-mono">
+                    <span class="text-slate-500">{item.issuer}</span>
+                    <button
+                      class="cert-modal-btn text-accent-cyan underline hover:text-accent-cyan/80 cursor-pointer font-medium"
+                      data-title={item.title}
+                      data-issuer={item.issuer}
+                      data-file={item.fileHref}
+                    >
+                      View Certificate
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Industry Certifications -->
+          <div>
+            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-accent-cyan mb-3">Industry Certifications</h3>
+            <ul class="space-y-3">
+              {industryCertifications.map((cert) => (
+                <li class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-4 hover:border-accent-cyan/40 transition-colors">
+                  <div class="flex items-baseline justify-between gap-2">
+                    <span class="font-medium text-slate-200 text-sm">{cert.title}</span>
+                    <span class="text-xs font-mono text-slate-500 shrink-0">{cert.date}</span>
+                  </div>
+                  <p class="mt-1.5 text-xs text-slate-400 leading-relaxed">
+                    {cert.description}
+                  </p>
+                  <div class="mt-3 flex items-center justify-between text-xs font-mono">
+                    <span class="text-slate-500">{cert.issuer}</span>
+                    <button
+                      class="cert-modal-btn text-accent-cyan underline hover:text-accent-cyan/80 cursor-pointer font-medium"
+                      data-title={cert.title}
+                      data-issuer={cert.issuer}
+                      data-file={cert.fileHref}
+                    >
+                      View Certificate
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Academic & Professional Training -->
+          <div>
+            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-accent-cyan mb-3">Verified Coursework & Specializations</h3>
+            <ul class="space-y-3">
+              {professionalTraining.map((item) => (
+                <li class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-4 hover:border-accent-cyan/40 transition-colors">
+                  <div class="flex items-baseline justify-between gap-2">
+                    <span class="font-medium text-slate-200 text-sm">{item.title}</span>
+                    <span class="text-xs font-mono text-slate-500 shrink-0">{item.date}</span>
+                  </div>
+                  <p class="mt-1.5 text-xs text-slate-400 leading-relaxed">
+                    {item.description}
+                  </p>
+                  <div class="mt-3 flex items-center justify-between text-xs font-mono">
+                    <span class="text-slate-500">{item.issuer}</span>
+                    <button
+                      class="cert-modal-btn text-accent-cyan underline hover:text-accent-cyan/80 cursor-pointer font-medium"
+                      data-title={item.title}
+                      data-issuer={item.issuer}
+                      data-file={item.fileHref}
+                    >
+                      View Certificate
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>

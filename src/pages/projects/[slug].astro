@@ -24,14 +24,19 @@ const { Content } = await render(project);
     </a>
 
     <!-- Header -->
-    <header class="mb-10">
+    <header class="mb-8">
+      {project.data.kicker && (
+        <div class="text-xs font-mono font-medium text-accent-cyan tracking-wide mb-2">
+          {project.data.kicker}
+        </div>
+      )}
       <div class="text-xs font-mono font-semibold uppercase tracking-widest text-slate-500 mb-2">
         {project.data.period} — {project.data.role}
       </div>
       <h1 class="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
         {project.data.title}
       </h1>
-      <p class="mt-4 text-base leading-relaxed text-slate-300">
+      <p class="mt-4 text-base sm:text-lg leading-relaxed text-slate-300">
         {project.data.summary}
       </p>
 
@@ -43,10 +48,52 @@ const { Content } = await render(project);
           </span>
         ))}
       </div>
+
+      <!-- Action Links -->
+      <div class="mt-6 flex flex-wrap items-center gap-5 text-sm font-mono font-medium">
+        {project.data.githubUrl && (
+          <a
+            href={project.data.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex items-center gap-2 rounded-md border border-border-subtle/30 bg-bg-surface/50 px-4 py-2 text-slate-200 hover:border-accent-cyan/50 hover:text-accent-cyan transition-colors shadow-sm"
+          >
+            <span>View Repository</span>
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        )}
+        {project.data.liveUrl && (
+          <a
+            href={project.data.liveUrl}
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex items-center gap-2 rounded-md border border-accent-emerald/30 bg-accent-emerald/10 px-4 py-2 text-accent-emerald hover:bg-accent-emerald/20 transition-colors shadow-sm"
+          >
+            <span class="inline-block h-2 w-2 rounded-full bg-accent-emerald animate-pulse"></span>
+            <span>Live Application</span>
+          </a>
+        )}
+      </div>
     </header>
 
+    <!-- App Screenshot Preview -->
+    {project.data.image && (
+      <figure class="mb-12 overflow-hidden rounded-xl border border-border-subtle/30 bg-bg-surface/40 shadow-xl">
+        <img
+          src={project.data.image}
+          alt={`${project.data.title} application preview`}
+          class="w-full object-cover max-h-[480px] object-top"
+          loading="eager"
+        />
+        <figcaption class="px-4 py-2.5 text-xs font-mono text-slate-400 border-t border-border-subtle/20 bg-bg-surface/60 flex justify-between items-center">
+          <span>Application deliverable & system architecture</span>
+          <span>{project.data.title}</span>
+        </figcaption>
+      </figure>
+    )}
+
     <!-- Markdown Content Body -->
-    <article class="space-y-6 text-slate-300 text-base sm:text-lg leading-relaxed border-t border-border-subtle/20 pt-8 mb-16 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-slate-100 [&_h3]:mt-8 [&_h3]:mb-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-3 [&_strong]:text-slate-100 [&_strong]:font-semibold [&_p]:leading-relaxed">
+    <article class="space-y-6 text-slate-300 text-base sm:text-lg leading-relaxed border-t border-border-subtle/20 pt-8 mb-16 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-100 [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:tracking-tight [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-slate-100 [&_h3]:mt-8 [&_h3]:mb-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-2.5 [&_li]:text-slate-300 [&_strong]:text-slate-100 [&_strong]:font-semibold [&_p]:leading-relaxed [&_code]:rounded [&_code]:bg-bg-surface/80 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-accent-cyan [&_code]:text-sm [&_code]:font-mono">
       <Content />
     </article>
 
