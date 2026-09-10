@@ -3,9 +3,9 @@ title: "Lock-Ad"
 summary: "A cautious commuter navigation platform designing end-to-end route-planning workflows with Django REST Framework, React, and containerized PostgreSQL schemas."
 featured: true
 order: 3
-role: "Solo Backend Developer"
+role: "Solo Developer"
 period: "2025 - Present"
-kicker: "Personal solo project / Solo Backend Developer"
+kicker: "Personal solo project / Solo Developer"
 image: "/assets/projects/lockad.png"
 techStack: ["Django REST Framework", "React", "PostgreSQL", "Docker", "Python", "JavaScript"]
 githubUrl: "https://github.com/ur1el0/Lock-Ad-v3.git"

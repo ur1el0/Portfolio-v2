@@ -3,9 +3,9 @@ title: "Scrib"
 summary: "A real-time multiplayer Boggle-style word game and solver featuring an optimized Trie & DFS traversal engine evaluating 16-cube matrices against 170k words."
 featured: true
 order: 2
-role: "Creator & Backend Engineer"
+role: "Solo Developer"
 period: "2026"
-kicker: "Practice tool / Creator & Backend Engineer"
+kicker: "Personal project / Solo Developer"
 image: "/assets/projects/scrib.png"
 techStack: ["React", "TypeScript", "Tailwind CSS", "Python", "Django", "WebSockets"]
 githubUrl: "https://github.com/ur1el0/Scrib"
