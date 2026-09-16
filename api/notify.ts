@@ -55,19 +55,57 @@ export default async function handler(req: any, res: any) {
 
     const locationText = [city, region, country].filter(Boolean).join(', ');
 
+    // Reverse IP Organization & Network Enrichment
+    let organization = 'Unknown Organization';
+    let isp = 'Unknown ISP';
+    let connectionType = 'Broadband / Wi-Fi';
+    let asNumber = '';
+
+    if (ip && ip !== '127.0.0.1' && !ip.startsWith('192.168.') && !ip.startsWith('10.')) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000); // 2s timeout guard
+
+        const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,regionName,city,zip,isp,org,as,mobile,proxy,hosting`, {
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+
+        if (geoRes.ok) {
+          const geoData = await geoRes.json();
+          if (geoData.status === 'success') {
+            organization = geoData.org || geoData.isp || 'Unknown Organization';
+            isp = geoData.isp || 'Unknown ISP';
+            asNumber = geoData.as || '';
+
+            if (geoData.mobile) {
+              connectionType = 'Mobile Data (Cellular)';
+            } else if (geoData.hosting || geoData.proxy) {
+              connectionType = 'VPN / Cloud / Data Center';
+            } else {
+              connectionType = 'Campus / Corporate / Broadband Wi-Fi';
+            }
+          }
+        }
+      } catch {
+        // Fallback gracefully to Vercel edge headers if timeout occurs
+      }
+    }
+
     // Check if Resend API key is configured
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
       console.warn('[Telemetry] RESEND_API_KEY environment variable is not configured. Visitor payload:', {
         platform,
         location: locationText,
+        organization,
         deviceType,
         ip,
       });
       return res.status(200).json({ status: 'ok', warning: 'RESEND_API_KEY not configured' });
     }
 
-    const emailSubject = `Portfolio Visit: ${platform} (${locationText})`;
+    const emailSubject = `Portfolio Visit: ${platform} (${locationText}) • ${organization}`;
 
     const emailHtml = `
       <!DOCTYPE html>
@@ -94,7 +132,7 @@ export default async function handler(req: any, res: any) {
           <div class="card">
             <div class="header">
               <h2>New Portfolio Visitor Alert</h2>
-              <p>Referred via <strong>${platform}</strong></p>
+              <p>Referred via <strong>${platform}</strong> • <strong>${organization}</strong></p>
             </div>
             <div class="content">
               <div class="section-title">Traffic Origin & Referrer</div>
@@ -110,6 +148,25 @@ export default async function handler(req: any, res: any) {
                 <span class="label">Page Visited</span>
                 <span class="value"><code>${path}</code></span>
               </div>
+
+              <div class="section-title">Network & Organization</div>
+              <div class="data-row">
+                <span class="label">Organization / Campus</span>
+                <span class="value"><span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">${organization}</span></span>
+              </div>
+              <div class="data-row">
+                <span class="label">ISP / Carrier</span>
+                <span class="value">${isp}</span>
+              </div>
+              <div class="data-row">
+                <span class="label">Connection Type</span>
+                <span class="value">${connectionType}</span>
+              </div>
+              ${asNumber ? `
+              <div class="data-row">
+                <span class="label">Autonomous System (AS)</span>
+                <span class="value">${asNumber}</span>
+              </div>` : ''}
 
               <div class="section-title">Visitor Location</div>
               <div class="data-row">
