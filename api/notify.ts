@@ -13,13 +13,23 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    // Parse body if received as string or stream
+    // Parse body if received as string or raw stream
     let body = req.body;
-    if (typeof body === 'string') {
-      try {
-        body = JSON.parse(body);
-      } catch {
-        // Fallback for beacon payloads
+    if (!body || typeof body === 'string') {
+      if (typeof body === 'string') {
+        try {
+          body = JSON.parse(body);
+        } catch {}
+      } else if (req[Symbol.asyncIterator]) {
+        try {
+          let raw = '';
+          for await (const chunk of req) {
+            raw += typeof chunk === 'string' ? chunk : (chunk as any).toString('utf-8');
+          }
+          if (raw) {
+            body = JSON.parse(raw);
+          }
+        } catch {}
       }
     }
 
