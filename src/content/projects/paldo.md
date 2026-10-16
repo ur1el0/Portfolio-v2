@@ -1,37 +1,36 @@
 ---
 title: "Paldo"
-summary: "A centralized scholarship platform featuring eligibility filtering, application tracking, and automated announcements."
+summary: "A scholarship portal for students and local providers to match eligibility, submit applications, upload documents, and track review status."
 featured: true
 order: 4
 role: "Backend Developer"
 period: "2026"
 kicker: "Team capstone / Backend Developer"
 image: "/assets/projects/paldo.png"
-techStack: ["ASP.NET Core", "React", "PostgreSQL", "Docker"]
+techStack: ["ASP.NET Core", "React", "PostgreSQL", "Entity Framework Core", "Docker", "JWT"]
 githubUrl: "https://github.com/pak-pow/OpenIT_Capstone.git"
 liveUrl: "http://paldos.vercel.app"
-metrics: ["ASP.NET Core REST APIs", "React Interfaces", "PostgreSQL Containerization"]
+metrics: ["Scholarship Eligibility Matching", "Student & Admin Workflows", "ASP.NET Core REST API"]
 ---
 
 ## Context
-Local government scholarship programs struggle with fragmented paper applications, manual eligibility screening, and lack of transparency for student status tracking.
+Local scholarship programs need one workflow for publishing opportunities, checking student eligibility, receiving applications, and keeping applicants informed as submissions are reviewed.
 
 ## What I built
-* Architected ASP.NET Core REST API services managing scholarship program definitions, eligibility criteria, student applications, and approval workflows.
-* Modeled relational schemas in PostgreSQL supporting multi-step applicant pipelines, document metadata, and institutional reviewer assignments.
-* Integrated Docker environments for local backend services and database provisioning across team workflows.
+* Built ASP.NET Core REST endpoints for student profiles, scholarship programs, applications, and supporting documents.
+* Implemented eligibility matching against profile criteria such as GWA, household income, course, and barangay.
+* Developed React student and administrator interfaces for browsing programs, submitting applications, and managing scholarship records.
 
 ## Technical approach
-* Built with ASP.NET Core following clean controller-service-repository patterns and strongly typed Data Transfer Objects (DTOs).
-* Enforced eligibility validation rules (GPA thresholds, residency classifications, income brackets) directly in application service layers prior to status promotion.
-* Modeled state machine transitions for applications (`Submitted` -> `Under Review` -> `Eligible` / `Rejected` -> `Disbursed`) ensuring immutable audit histories.
-* PostgreSQL database indexes optimize student profile queries and reviewer queue filters.
+* ASP.NET Core services separate HTTP controllers from scholarship, eligibility, and application workflows.
+* Entity Framework Core maps student, scholarship, application, document, and notification records to PostgreSQL.
+* Typed DTOs and model validation shape API requests and responses, while application services enforce eligibility and status rules.
 
 ## Security and verification
-* Enforced role-based authorization ensuring applicants can only view their own submission records while institutional evaluators access assigned applicant pools.
-* DTO validation and input model annotations sanitize payload parameters and enforce schema integrity.
-* Automated integration tests cover scholarship CRUD workflows, status transition guards, and unauthorized route access rejection.
+* JWT authentication and role-based access protect student and administrator workflows.
+* API validation checks submitted profile and application data before it reaches the database.
+* Application documents are reviewed through staff workflows; the repository does not implement automated OCR verification.
 
 ## Current limits
-* Developed as an Open iT bootcamp capstone using synthetic student records and demo grant allocations.
-* Automatic OCR document proof verification is not yet implemented; reviewer verification remains manual.
+* Developed as an Open iT bootcamp capstone with demo sign-in and sample scholarship data.
+* Document proof verification remains a manual reviewer task; automated OCR is not implemented.

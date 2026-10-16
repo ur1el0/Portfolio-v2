@@ -1,6 +1,6 @@
 ---
-title: "Gridy"
-summary: "A web and mobile barangay information and management system modernizing document requests, urgency-categorized issue reporting, and public announcements."
+title: "KapitBayan"
+summary: "A barangay service platform connecting residents and staff through document requests, queues, assistance, incident reports, and public information."
 featured: true
 order: 1
 role: "Lead Backend Developer"
@@ -8,29 +8,30 @@ period: "2026 - Present"
 kicker: "Team capstone / Lead Backend Developer"
 image: "/assets/projects/gridy.png"
 techStack: ["Django REST Framework", "React", "Flutter", "PostgreSQL", "Docker", "Firebase FCM", "Cloudinary"]
-githubUrl: "https://github.com/ur1el0/Gridy"
+githubUrl: "https://github.com/ur1el0/KapitBayan"
 liveUrl: "https://gridy-nine.vercel.app"
-metrics: ["HttpOnly JWT & Audit Logging", "OpenAPI-Driven Backend Contracts", "Docker Containerization"]
+metrics: ["Resident & Staff Service Workflows", "React Web + Flutter Mobile", "Protected Evidence & Push Notifications"]
 ---
 
 ## Context
-Barangay residents and local administrators require separate authorization scopes for certificate issuance, dispute tracking, and emergency bulletins while guaranteeing citizen data privacy across web and mobile clients.
+Residents need a place to request barangay services and follow their status, while staff need scoped tools for document requests, queues, incidents, assistance, and public updates. The platform connects these workflows across web and mobile clients while protecting resident records.
 
 ## What I built
-* Architected policy-protected Django REST Framework endpoints managing citizen identity verification, document applications, urgency-tagged issue reporting, and announcements.
-* Implemented secure authentication with HttpOnly JWT cookies, refresh-token rotation, and automated audit logging for administrative accountability.
-* Integrated Firebase Cloud Messaging (FCM) for sub-second emergency broadcasts and Cloudinary for authenticated document proof storage.
+* Built Django REST Framework endpoints for document requests, fee assessment, queue services, assistance requests, incident reports, and public information.
+* Developed a React web portal for resident and staff workflows and a Flutter mobile app for residents and field personnel.
+* Integrated Cloudinary-backed evidence storage and Firebase Cloud Messaging for request-status and queue notifications, with private media served through authenticated backend views.
 
 ## Technical approach
-* OpenAPI schema contracts serve as the single source of truth between the Django REST backend and client platforms (React admin dashboard and Flutter mobile app).
-* Role-Based Access Control (RBAC) is enforced at the serializer and viewset layers, guaranteeing that resident accounts can never read or mutate other households' records.
-* File attachments (e.g. proof of residency, municipal certificates) are sanitized and validated for MIME types before streaming to cloud storage to prevent unauthenticated server exhaustion.
-* Relational database tables enforce referential integrity across fee schedules, document issuance statuses, and audit timestamps.
+* Django migrations define the relational data model, while the generated OpenAPI schema documents the API contracts used by the React and Flutter clients.
+* Permissions scope resident, barangay staff, field personnel, and oversight workflows to their respective roles and records.
+* Cloudinary stores uploaded evidence; the backend controls access to private identity and payment files.
+* Docker Compose provisions the database and web services for local development and demos.
 
 ## Security and verification
-* Access tokens are retained in volatile client memory while refresh tokens are set exclusively as `HttpOnly`, `SameSite=Strict` cookies.
-* Backend views implement rate limiting and request payload validation to prevent automated spamming on public request endpoints.
-* Automated Django test suites verify role separation, authentication transitions, token rotation, and permission denial boundaries.
+* JWT authentication uses short-lived access tokens and refresh-token rotation and blacklisting.
+* Private identity and payment evidence is served through authenticated views rather than public storage URLs.
+* Fee assessment, payment verification, document approval, and assistance decisions remain staff-controlled.
 
 ## Current limits
-* Capstone system evaluated using synthetic barangay datasets. Formal institutional deployment requires municipal LGU infrastructure provisioning.
+* The platform records payment evidence but does not process payments through a gateway; treasury staff verify settlement and service decisions.
+* The repository documents local development and pilot workflows; it does not by itself establish production deployment or institutional rollout.
