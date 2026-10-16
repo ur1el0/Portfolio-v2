@@ -1,36 +1,36 @@
 ---
 title: "NSync"
-summary: "A cross-platform synchronization tool featuring a native Android user interface built with Jetpack Compose and automated background Python utilities."
+summary: "A Kotlin study app for capturing notes, creating review cards, completing quiz-style sessions, and tracking learning progress through a Django REST API."
 featured: true
 order: 5
 role: "Solo Android Final Project"
 period: "2026"
 kicker: "Solo Android project / Android & Backend Developer"
 image: "/assets/projects/nsync.png"
-techStack: ["Kotlin", "Jetpack Compose", "Django REST Framework", "Docker", "Python"]
+techStack: ["Kotlin", "Jetpack Compose", "Django REST Framework", "PostgreSQL", "Retrofit", "DataStore"]
 githubUrl: "https://github.com/ur1el0/NSync.git"
-metrics: ["Native Jetpack Compose UI", "Kotlin Core Sync Modules", "Python Background Utilities"]
+metrics: ["Notes, Flashcards & Review Sessions", "Native Jetpack Compose UI", "XP, Streak & Mastery Tracking"]
 ---
 
 ## Context
-Mobile users needing periodic or event-driven data synchronization between mobile device storage and remote servers often face network drops, state drift, and unhandled offline conditions.
+Students need a simple way to capture ideas, turn them into review cards, and see how their learning changes over time. NSync organizes notes, flashcards, review sessions, and progress in one Android app.
 
 ## What I built
-* Developed a native Android application in Kotlin using modern Jetpack Compose declarative UI architecture.
-* Built a companion Django REST Framework backend service handling payload ingestion, timestamped synchronization logs, and state reconciliation.
-* Implemented background synchronization utilities and containerized server infrastructure using Docker.
+* Developed a native Android application in Kotlin and Jetpack Compose for notes, flashcards, review sessions, dashboard, profile, and mastery views.
+* Built a Django REST Framework API backed by PostgreSQL for registration, authentication, user-owned notes, flashcards, review outcomes, and progress.
+* Added XP, accuracy, streak, and mastery updates after review sessions, plus local review preferences and scheduled reminders.
 
 ## Technical approach
-* Android client utilizes Kotlin Coroutines and StateFlow for reactive UI state management and asynchronous background operations without UI thread blockage.
-* Sync protocols utilize timestamp-based delta checks to identify local records requiring upload or remote updates requiring client-side pull.
-* The Django backend exposes serialized endpoints for conflict resolution, session validation, and batch record ingestion.
-* Docker Compose handles isolated development and server testing environments.
+* Compose screens communicate through ViewModels and repositories, with Retrofit and OkHttp carrying requests to the backend.
+* Android DataStore stores the local JWT session; an authentication interceptor attaches access tokens to protected API requests.
+* Django serializers and user-scoped querysets keep notes, flashcards, and review progress associated with the signed-in account.
+* Android notification scheduling supports local review reminders, while PostgreSQL persists the account's learning data.
 
 ## Security and verification
-* API requests require token-based authentication headers verified on every synchronization handshake.
-* Client-side error handling traps network timeouts and offline states, queuing updates locally until connectivity is restored.
-* Test suites verify payload serialization, timestamp ordering, and error recovery on intermittent connection drops.
+* JWT access and refresh tokens support login, session restoration, token refresh, and logout.
+* The client attempts one refresh-and-retry when an access token expires, then clears the stored session if re-authentication is required.
+* Protected API resources return only records owned by the authenticated user.
 
 ## Current limits
-* Academic Android final project running in development and local emulator environments.
-* Advanced multi-master peer-to-peer conflict resolution (e.g. CRDTs) is not implemented; server timestamp wins in conflict scenarios.
+* NSync is an academic Android project with an API-backed workflow; offline-first synchronization is not implemented.
+* AI-generated cards and advanced spaced-repetition scheduling are outside the current implementation.

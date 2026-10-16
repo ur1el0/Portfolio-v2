@@ -1,36 +1,36 @@
 ---
-title: "Lock-Ad"
-summary: "A cautious commuter navigation platform designing end-to-end route-planning workflows with Django REST Framework, React, and containerized PostgreSQL schemas."
+title: "Lock-Ad v3"
+summary: "A cautious walking-route platform for Philippine commuters that pairs route previews with lighting, infrastructure, community reports, weather, and other safety-related context."
 featured: true
 order: 3
 role: "Solo Developer"
 period: "2025 - Present"
 kicker: "Personal solo project / Solo Developer"
 image: "/assets/projects/lockad.png"
-techStack: ["Django REST Framework", "React", "PostgreSQL", "Docker", "Python", "JavaScript"]
+techStack: ["Django REST Framework", "React", "OpenRouteService", "SQLite", "Docker Compose"]
 githubUrl: "https://github.com/ur1el0/Lock-Ad-v3.git"
-metrics: ["End-to-End Route Workflows", "Docker Containerization", "Production PostgreSQL Schemas"]
+metrics: ["Walking Route Previews", "OpenRouteService Integration", "Session Auth + CSRF"]
 ---
 
 ## Context
-Commuters navigating unfamiliar or high-incident routes lack localized safety advisories, structured incident reporting, and verified safe-pathway routing across municipal transit corridors.
+Commuters need useful context before choosing a walking route. Lock-Ad brings route distance and travel time together with available lighting, infrastructure, weather, and community-report signals without presenting any route as guaranteed safe.
 
 ## What I built
-* Engineered Django REST Framework spatial and route-planning endpoints mapping localized safety zones, incident hot-spots, and commuter alert corridors.
-* Implemented relational schemas in PostgreSQL to store geocoded waypoint coordinates, hazard classifications, and time-stamped incident logs.
-* Containerized backend API services and database configurations with Docker Compose for reproducible local development and staging environments.
+* Built a Django REST backend and React/Vite client with registration, login, protected pages, and walking-route preview workflows.
+* Integrated OpenRouteService through the backend to request walking routes and return route geometry, distance, and estimated travel time.
+* Added safety-data workflows for community incident reports and advisory inputs, including moderator review tools.
 
 ## Technical approach
-* Client map and pathing requests from React communicate with Django REST viewsets designed around coordinate boundary queries.
-* Waypoints and danger-flagged sectors are indexed with relational coordinates and spatial bounding boxes to prevent full-table scans during route evaluation.
-* Structured API validation contracts verify incoming community incident reports (timestamps, category codes, latitude/longitude bounds) before database persistence.
-* Docker Compose orchestrates the Python web service, PostgreSQL database container, and network isolation boundaries.
+* The React client sends route requests to Django; the OpenRouteService key stays on the server rather than in the browser.
+* Session authentication and CSRF protection secure browser requests, while backend serializers validate route coordinates and profiles.
+* Safety advisory requests validate their inputs and use endpoint-specific rate limits; incident media is restricted to authorized staff.
+* SQLite supports local development, while Docker Compose can provision PostgreSQL and Redis services.
 
 ## Security and verification
-* Incident submission endpoints enforce payload sanitization, coordinate boundary validation, and rate limiting to prevent automated coordinate spoofing.
-* Django test cases validate CRUD endpoints, coordinate format parsers, and permission checks for administrative incident verification.
-* Environment configurations isolate database secrets and API credentials across container boundaries.
+* The browser uses Django session authentication with CSRF tokens for state-changing requests.
+* Incident evidence is protected behind staff authorization, and AI analysis is a moderator aid rather than an automatic report approval.
+* Provider keys and database credentials are configured through environment files and kept out of the frontend.
 
 ## Current limits
-* Route calculations currently run on bounding-box approximations rather than a dedicated external routing graph engine (such as pgRouting or OSRM).
-* Incidents rely on synthetic community verification data; real-time transit telemetry integration is planned for future iterations.
+* Route safety is advisory and depends on the coverage and freshness of available reports, weather, and public data; no route is guaranteed safe.
+* The project is still developing its safety-data coverage and deployment setup, so configured providers and live service status need separate verification.
