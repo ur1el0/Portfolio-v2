@@ -9,7 +9,7 @@ kicker: "Team capstone / Backend Developer"
 image: "/assets/projects/paldo.png"
 techStack: ["ASP.NET Core", "React", "PostgreSQL", "Entity Framework Core", "Docker", "JWT"]
 githubUrl: "https://github.com/pak-pow/OpenIT_Capstone.git"
-liveUrl: "http://paldos.vercel.app"
+liveUrl: "https://paldos.vercel.app"
 metrics: ["Scholarship Eligibility Matching", "Student & Admin Workflows", "ASP.NET Core REST API"]
 ---
 
