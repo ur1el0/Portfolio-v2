@@ -1,22 +1,63 @@
 /**
  * Vercel Serverless Telemetry Endpoint
  * Route: POST /api/notify
- * Captures edge geolocation and sends an alert email to zanoroosc@gmail.com via Resend.
+ * Captures edge geolocation and sends an alert email via Resend with hardened security controls.
  */
 
 declare const process: { env: Record<string, string | undefined> };
 
+function escapeHtml(value: unknown): string {
+  if (typeof value !== 'string') return '';
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function sanitizeSubject(value: string): string {
+  return value.replace(/[\r\n]+/g, ' ').trim();
+}
+
+const ALLOWED_ORIGIN_PATTERNS = [
+  /^https?:\/\/localhost(:\d+)?$/,
+  /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
+  /^https:\/\/roosc-zano\.vercel\.app$/,
+  /^https:\/\/roosczano\.vercel\.app$/,
+  /^https:\/\/.*roosc-zano.*\.vercel\.app$/,
+];
+
+function isOriginAllowed(originHeader?: string, refererHeader?: string): boolean {
+  const origin = originHeader || (refererHeader ? new URL(refererHeader).origin : undefined);
+  if (!origin) {
+    // Direct or same-origin serverless requests without explicit Origin
+    return true;
+  }
+  return ALLOWED_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin));
+}
+
 export default async function handler(req: any, res: any) {
-  // Only accept POST requests
+  // 1. Enforce POST only
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // 2. Validate Origin & Referer to block unauthorized cross-site spam
+  const origin = req.headers['origin'] as string | undefined;
+  const referer = req.headers['referer'] as string | undefined;
+  if (!isOriginAllowed(origin, referer)) {
+    return res.status(403).json({ error: 'Forbidden: Invalid origin' });
+  }
+
   try {
-    // Parse body if received as string or raw stream
+    // 3. Parse body safely with raw payload size limits
     let body = req.body;
     if (!body || typeof body === 'string') {
       if (typeof body === 'string') {
+        if (body.length > 8192) {
+          return res.status(413).json({ error: 'Payload too large' });
+        }
         try {
           body = JSON.parse(body);
         } catch {}
@@ -25,6 +66,9 @@ export default async function handler(req: any, res: any) {
           let raw = '';
           for await (const chunk of req) {
             raw += typeof chunk === 'string' ? chunk : (chunk as any).toString('utf-8');
+            if (raw.length > 8192) {
+              return res.status(413).json({ error: 'Payload too large' });
+            }
           }
           if (raw) {
             body = JSON.parse(raw);
@@ -33,30 +77,41 @@ export default async function handler(req: any, res: any) {
       }
     }
 
-    const {
-      platform = 'Unknown',
-      rawReferrer = '(None)',
-      deviceType = 'Unknown',
-      os = 'Unknown',
-      browser = 'Unknown',
-      screenResolution = 'Unknown',
-      viewport = 'Unknown',
-      path = '/',
-      timestamp = new Date().toISOString(),
-      language = 'Unknown',
-    } = body || {};
+    if (!body || typeof body !== 'object') {
+      return res.status(400).json({ error: 'Invalid request payload' });
+    }
 
-    // Extract Vercel Edge Geolocation Headers
-    const country = (req.headers['x-vercel-ip-country'] as string) || 'Unknown Country';
-    const region = (req.headers['x-vercel-ip-country-region'] as string) || '';
-    const rawCity = (req.headers['x-vercel-ip-city'] as string) || 'Unknown City';
-    const city = rawCity !== 'Unknown City' ? decodeURIComponent(rawCity) : rawCity;
-    const ip = ((req.headers['x-forwarded-for'] as string) || req.socket?.remoteAddress || '').split(',')[0].trim();
+    // 4. Sanitize and HTML-encode all incoming untrusted client parameters
+    const platform = escapeHtml(body.platform || 'Unknown').slice(0, 100);
+    const rawReferrer = escapeHtml(body.rawReferrer || '(None)').slice(0, 500);
+    const deviceType = escapeHtml(body.deviceType || 'Unknown').slice(0, 50);
+    const os = escapeHtml(body.os || 'Unknown').slice(0, 50);
+    const browser = escapeHtml(body.browser || 'Unknown').slice(0, 50);
+    const screenResolution = escapeHtml(body.screenResolution || 'Unknown').slice(0, 50);
+    const viewport = escapeHtml(body.viewport || 'Unknown').slice(0, 50);
+    const path = escapeHtml(body.path || '/').slice(0, 200);
+    const timestamp = escapeHtml(body.timestamp || new Date().toISOString()).slice(0, 100);
+    const language = escapeHtml(body.language || 'Unknown').slice(0, 50);
+
+    // 5. Extract Edge Geolocation Headers and sanitize
+    const rawCountry = (req.headers['x-vercel-ip-country'] as string) || 'Unknown Country';
+    const rawRegion = (req.headers['x-vercel-ip-country-region'] as string) || '';
+    const rawCityHeader = (req.headers['x-vercel-ip-city'] as string) || 'Unknown City';
+    const decodedCity = rawCityHeader !== 'Unknown City' ? decodeURIComponent(rawCityHeader) : rawCityHeader;
+
+    const country = escapeHtml(rawCountry).slice(0, 50);
+    const region = escapeHtml(rawRegion).slice(0, 50);
+    const city = escapeHtml(decodedCity).slice(0, 100);
+
+    const rawIp = ((req.headers['x-forwarded-for'] as string) || req.socket?.remoteAddress || '').split(',')[0].trim();
+    const ip = escapeHtml(rawIp).slice(0, 50);
 
     const locationText = [city, region, country].filter(Boolean).join(', ');
 
-    // Check if Resend API key is configured
+    // 6. Check environment configuration
     const apiKey = process.env.RESEND_API_KEY;
+    const recipientEmail = process.env.ALERT_RECIPIENT_EMAIL || 'zanoroosc@gmail.com';
+
     if (!apiKey) {
       console.warn('[Telemetry] RESEND_API_KEY environment variable is not configured. Visitor payload:', {
         platform,
@@ -67,7 +122,7 @@ export default async function handler(req: any, res: any) {
       return res.status(200).json({ status: 'ok', warning: 'RESEND_API_KEY not configured' });
     }
 
-    const emailSubject = `Portfolio Visit: ${platform} (${locationText})`;
+    const emailSubject = sanitizeSubject(`Portfolio Visit: ${platform} (${locationText})`);
 
     const emailHtml = `
       <!DOCTYPE html>
@@ -167,7 +222,7 @@ export default async function handler(req: any, res: any) {
       },
       body: JSON.stringify({
         from: 'Portfolio Alerts <onboarding@resend.dev>',
-        to: ['zanoroosc@gmail.com'],
+        to: [recipientEmail],
         subject: emailSubject,
         html: emailHtml,
       }),
