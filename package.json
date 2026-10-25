@@ -15,5 +15,8 @@
         "astro": "^7.3.1",
         "tailwindcss": "^3.4.17",
         "typescript": "^5.7.3"
+    },
+    "overrides": {
+        "braces": "^3.0.3"
     }
 }

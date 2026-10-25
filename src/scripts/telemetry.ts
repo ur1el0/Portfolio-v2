@@ -7,7 +7,10 @@
 function initTelemetry(): void {
   if (typeof window === 'undefined') return;
 
-  // 1. Guard: Ignore automated bot/crawler traffic
+  // 1. Guard: Respect Do Not Track (DNT) and ignore automated bot traffic
+  const dnt = navigator.doNotTrack || (window as any).doNotTrack || (navigator as any).msDoNotTrack;
+  if (dnt === '1' || dnt === 'yes') return;
+
   const ua = navigator.userAgent;
   const isBot = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|headless/i.test(ua);
   if (isBot) return;
