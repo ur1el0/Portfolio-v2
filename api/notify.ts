@@ -169,7 +169,7 @@ export default async function handler(req: any, res: any) {
                 <span class="value"><code>${path}</code></span>
               </div>
 
-              <div class="section-title">Approximate Location (IP-based)</div>
+              <div class="section-title">IP-based location</div>
               <div class="data-row">
                 <span class="label">Region code</span>
                 <span class="value location-primary">${region || 'Unavailable'}</span>
@@ -179,7 +179,7 @@ export default async function handler(req: any, res: any) {
                 <span class="value location-primary">${country}</span>
               </div>
               <div class="data-row">
-                <span class="label">City (IP estimate)</span>
+                <span class="label">City estimate</span>
                 <span class="value">${cityEstimate}</span>
               </div>
               <div class="data-row">
