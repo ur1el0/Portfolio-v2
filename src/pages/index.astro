@@ -14,21 +14,21 @@ const awardsAndCompetitions = [
     title: 'Top Performer — Open iT Applied Full Stack Development Bootcamp',
     issuer: 'Open iT',
     date: '2026',
-    description: 'Recognized among 30+ participants as a Top Performer in the Full Stack Development Track.',
+    description: 'Named a Top Performer among 30+ bootcamp participants.',
     fileHref: '/assets/participation/topPerformer.jpg',
   },
   {
     title: 'Participant & Team Leader — DLSU HackerCup',
     issuer: 'De La Salle University',
     date: '2025',
-    description: 'Led a 4-person collegiate engineering team designing real-time civic disaster response and community coordination platforms under 24-hour hackathon constraints.',
+    description: 'Led a four-person team in a 24-hour civic-tech hackathon.',
     fileHref: '/assets/participation/hackercup.pdf',
   },
   {
     title: 'Participant — Inventi Hackathon Challenge',
     issuer: 'Inventi',
     date: '2025',
-    description: 'Competed in rapid software prototyping, architecting API endpoints and data models under accelerated delivery time constraints.',
+    description: 'Prototyped APIs and data models under time limits.',
     fileHref: '/assets/participation/inventi.jpg',
   },
 ];
@@ -38,7 +38,7 @@ const industryCertifications = [
     title: 'Microsoft Certified: Azure Fundamentals (AZ-900)',
     issuer: 'Microsoft',
     date: '2026',
-    description: 'Validates foundational cloud architecture concepts, Azure core services, security governance, resource compliance, and identity protection.',
+    description: 'Covers cloud fundamentals, Azure services, and security basics.',
     fileHref: '/assets/certifications/az900-cert.pdf',
   },
 ];
@@ -48,21 +48,21 @@ const professionalTraining = [
     title: 'Database Design and Basic SQL in PostgreSQL',
     issuer: 'University of Michigan (Coursera)',
     date: '2025',
-    description: 'Relational database schema modeling, primary/foreign key normalization, SQL query optimization, and transaction boundaries.',
+    description: 'PostgreSQL schema design and SQL basics.',
     fileHref: '/assets/certifications/Coursera-postgres-cert.pdf',
   },
   {
     title: 'Operating System Virtualization',
     issuer: 'Illinois Institute of Technology (Coursera)',
     date: '2025',
-    description: 'Hardware virtualization primitives, container kernel namespaces, cgroups, process scheduling, and resource isolation boundaries.',
+    description: 'Virtualization, containers, and resource isolation.',
     fileHref: '/assets/certifications/Coursera-os-cert.pdf',
   },
   {
     title: 'Flutter and Dart: Developing iOS, Android, and Mobile Apps',
     issuer: 'Coursera',
     date: '2025',
-    description: 'State management paradigms, widget lifecycle architecture, asynchronous Dart pipelines, and cross-platform native mobile compilation.',
+    description: 'Mobile app development with Flutter and Dart.',
     fileHref: '/assets/certifications/Coursera-flutter&dart-cert.pdf',
   },
 ];
@@ -73,28 +73,22 @@ const professionalTraining = [
     <Header />
 
     <main id="content" class="pt-24 lg:w-[54%] lg:py-24">
-      <!-- Section 01: About -->
+      <!-- About -->
       <section id="about" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-32 lg:scroll-mt-24" aria-label="About me">
         <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-bg-dark/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-0 lg:w-auto lg:opacity-0">
-          <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">01. About</h2>
+          <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">About</h2>
         </div>
         <div class="space-y-4 text-lg leading-relaxed text-slate-400">
           <p>
-            I am a BS Information Technology student at Manuel S. Enverga University Foundation, focused on backend and full-stack software development.
-          </p>
-          <p>
-            I build REST APIs and web applications with <span class="font-medium text-slate-200">Python and Django REST Framework</span>, <span class="font-medium text-slate-200">C# and ASP.NET Core</span>, <span class="font-medium text-slate-200">React</span>, <span class="font-medium text-slate-200">PostgreSQL</span>, and <span class="font-medium text-slate-200">Docker</span>.
-          </p>
-          <p>
-            In 2026, I completed the Open iT Applied Full Stack Development Bootcamp as a Top Performer in the Full Stack Track, and earned the Microsoft Certified: Azure Fundamentals (AZ-900) credential.
+            I’m a BSIT student at Manuel S. Enverga University Foundation in Lucena, Philippines. I build backend and full-stack apps for education and local communities.
           </p>
         </div>
       </section>
 
-      <!-- Section 02: Projects -->
+      <!-- Projects -->
       <section id="projects" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-32 lg:scroll-mt-24" aria-label="Selected projects">
         <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-bg-dark/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-0 lg:w-auto lg:opacity-0">
-          <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">02. Projects</h2>
+          <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">Projects</h2>
         </div>
         <div>
           <ul class="group/projects space-y-12">
@@ -110,7 +104,6 @@ const professionalTraining = [
                   liveUrl={project.data.liveUrl}
                   slug={project.id}
                   image={project.data.image}
-                  kicker={project.data.kicker}
                   metrics={project.data.metrics}
                 />
               </li>
@@ -119,16 +112,16 @@ const professionalTraining = [
         </div>
       </section>
 
-      <!-- Section 03: Skills, Education & Credentials -->
+      <!-- Skills & Credentials -->
       <section id="skills" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-32 lg:scroll-mt-24" aria-label="Skills and credentials">
         <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-bg-dark/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-0 lg:w-auto lg:opacity-0">
-          <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">03. Education & Credentials</h2>
+          <h2 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-200">Skills & Credentials</h2>
         </div>
 
         <div class="space-y-10">
           <!-- Education & Training -->
           <div>
-            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-3">Education & Academic Background</h3>
+            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-3">Education</h3>
             <div class="space-y-3">
               <div class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-4">
                 <div class="flex items-center justify-between">
@@ -150,7 +143,7 @@ const professionalTraining = [
 
           <!-- Technical Stack -->
           <div>
-            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-3">Core Technical Skills</h3>
+            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 mb-3">Skills</h3>
             <div class="flex flex-wrap gap-2">
               <SkillBadge name="Python" category="backend" />
               <SkillBadge name="C#" category="backend" />
@@ -226,7 +219,7 @@ const professionalTraining = [
 
           <!-- Academic & Professional Training -->
           <div>
-            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-accent-cyan mb-3">Verified Coursework & Specializations</h3>
+            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-accent-cyan mb-3">Coursework</h3>
             <ul class="space-y-3">
               {professionalTraining.map((item) => (
                 <li class="rounded-lg border border-border-subtle/10 bg-bg-surface/30 p-4 hover:border-accent-cyan/40 transition-colors">

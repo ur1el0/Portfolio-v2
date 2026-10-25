@@ -1,11 +1,10 @@
 ---
 title: "Lock-Ad v3"
-summary: "A cautious walking-route platform for Philippine commuters that pairs route previews with lighting, infrastructure, community reports, weather, and other safety-related context."
+summary: "A walking-route app for Philippine commuters, with local context on lighting, infrastructure, weather, and community reports."
 featured: true
 order: 3
 role: "Solo Developer"
 period: "2025 - Present"
-kicker: "Personal solo project / Solo Developer"
 image: "/assets/projects/lockad.png"
 techStack: ["Django REST Framework", "React", "OpenRouteService", "SQLite", "Docker Compose"]
 githubUrl: "https://github.com/ur1el0/Lock-Ad-v3.git"

@@ -1,11 +1,10 @@
 ---
 title: "Scrib"
-summary: "A WebSocket multiplayer word game for the MSEUF English Festival, with a 4x4 dice board, timed rounds, and server-side TWL06 word validation."
+summary: "A multiplayer word game with timed 4×4 dice rounds and server-validated scoring."
 featured: true
 order: 2
 role: "Solo Developer"
 period: "August - September 2026"
-kicker: "Personal project / Solo Developer"
 image: "/assets/projects/scrib.png"
 techStack: ["React 19", "TypeScript", "Tailwind CSS", "Django", "Django Channels", "Daphne", "SQLite"]
 githubUrl: "https://github.com/ur1el0/Scrib"
