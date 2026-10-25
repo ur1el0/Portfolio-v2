@@ -15,13 +15,12 @@ function initTelemetry(): void {
   const isBot = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|headless/i.test(ua);
   if (isBot) return;
 
-  // 2. Resolve URL Params & Debug Bypass
+  // 2. Resolve URL Params
   const urlParams = new URLSearchParams(window.location.search);
-  const isDebug = urlParams.has('test') || urlParams.has('debug');
 
-  // 3. Guard: Deduplicate alerts per visitor session (bypassed if ?test=1)
+  // 3. Deduplicate alerts per visitor session
   const SESSION_KEY = 'portfolio_view_reported';
-  if (!isDebug && sessionStorage.getItem(SESSION_KEY)) {
+  if (sessionStorage.getItem(SESSION_KEY)) {
     return;
   }
 
@@ -84,10 +83,8 @@ function initTelemetry(): void {
     language: navigator.language,
   };
 
-  // 5. Mark session as recorded (unless in test/debug mode)
-  if (!isDebug) {
-    sessionStorage.setItem(SESSION_KEY, '1');
-  }
+  // 5. Mark the session before sending so navigation or retries cannot duplicate an alert.
+  sessionStorage.setItem(SESSION_KEY, '1');
 
   // 6. Send telemetry via fetch (guaranteed application/json) with beacon fallback
   const serialized = JSON.stringify(payload);
@@ -97,11 +94,6 @@ function initTelemetry(): void {
     body: serialized,
     keepalive: true,
   })
-    .then((res) => {
-      if (isDebug) {
-        console.log('[Telemetry] Dispatched successfully. Status:', res.status);
-      }
-    })
     .catch(() => {
       if (navigator.sendBeacon) {
         const blob = new Blob([serialized], { type: 'application/json' });
