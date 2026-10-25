@@ -25,11 +25,6 @@ const { Content } = await render(project);
 
     <!-- Header -->
     <header class="mb-8">
-      {project.data.kicker && (
-        <div class="text-xs font-mono font-medium text-accent-cyan tracking-wide mb-2">
-          {project.data.kicker}
-        </div>
-      )}
       <div class="text-xs font-mono font-semibold uppercase tracking-widest text-slate-500 mb-2">
         {project.data.period} — {project.data.role}
       </div>

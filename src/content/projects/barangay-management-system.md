@@ -1,11 +1,10 @@
 ---
 title: "KapitBayan"
-summary: "A barangay service platform connecting residents and staff through document requests, queues, assistance, incident reports, and public information."
+summary: "A barangay service platform for document requests, queues, assistance, incident reports, and public updates."
 featured: true
 order: 1
 role: "Lead Backend Developer"
 period: "2026 - Present"
-kicker: "Team capstone / Lead Backend Developer"
 image: "/assets/projects/gridy.png"
 techStack: ["Django REST Framework", "React", "Flutter", "PostgreSQL", "Docker", "Firebase FCM", "Cloudinary"]
 githubUrl: "https://github.com/ur1el0/KapitBayan"

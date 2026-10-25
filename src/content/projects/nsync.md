@@ -1,11 +1,10 @@
 ---
 title: "NSync"
-summary: "A Kotlin study app for capturing notes, creating review cards, completing quiz-style sessions, and tracking learning progress through a Django REST API."
+summary: "An Android study app for notes, flashcards, quizzes, and learning progress."
 featured: true
 order: 5
 role: "Solo Android Final Project"
 period: "2026"
-kicker: "Solo Android project / Android & Backend Developer"
 image: "/assets/projects/nsync.png"
 techStack: ["Kotlin", "Jetpack Compose", "Django REST Framework", "PostgreSQL", "Retrofit", "DataStore"]
 githubUrl: "https://github.com/ur1el0/NSync.git"

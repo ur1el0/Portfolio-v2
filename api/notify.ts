@@ -20,6 +20,20 @@ function sanitizeSubject(value: string): string {
   return value.replace(/[\r\n]+/g, ' ').trim();
 }
 
+async function createVisitorIdempotencyKey(apiKey: string, ip: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(apiKey),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(ip || 'unknown'));
+  const digest = Array.from(new Uint8Array(signature), (byte) => byte.toString(16).padStart(2, '0')).join('');
+  return `portfolio-visitor-${digest}`;
+}
+
 const ALLOWED_ORIGIN_PATTERNS = [
   /^https?:\/\/localhost(:\d+)?$/,
   /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
@@ -94,20 +108,30 @@ export default async function handler(req: any, res: any) {
     const language = escapeHtml(body.language || 'Unknown').slice(0, 50);
 
     // 5. Extract Edge Geolocation Headers and sanitize
-    const rawCountry = (req.headers['x-vercel-ip-country'] as string) || 'Unknown Country';
+    const rawCountry = (req.headers['x-vercel-ip-country'] as string) || '';
     const rawRegion = (req.headers['x-vercel-ip-country-region'] as string) || '';
-    const rawCityHeader = (req.headers['x-vercel-ip-city'] as string) || 'Unknown City';
-    const decodedCity = rawCityHeader !== 'Unknown City' ? decodeURIComponent(rawCityHeader) : rawCityHeader;
+    const rawCityHeader = (req.headers['x-vercel-ip-city'] as string) || '';
+    let decodedCity = rawCityHeader;
+    try {
+      decodedCity = decodeURIComponent(rawCityHeader);
+    } catch {}
 
-    const country = escapeHtml(rawCountry).slice(0, 50);
+    const countryCode = escapeHtml(rawCountry.trim().toUpperCase()).slice(0, 2);
+    let countryName = countryCode;
+    if (/^[A-Z]{2}$/.test(countryCode)) {
+      try {
+        countryName = new Intl.DisplayNames(['en'], { type: 'region' }).of(countryCode) || countryCode;
+      } catch {}
+    }
+    const country = escapeHtml(countryName).slice(0, 50);
     const region = escapeHtml(rawRegion).slice(0, 50);
-    const city = escapeHtml(decodedCity).slice(0, 100);
+    const city = escapeHtml(decodedCity || 'Unknown').slice(0, 100);
 
-    const rawIp = ((req.headers['x-forwarded-for'] as string) || req.socket?.remoteAddress || '').split(',')[0].trim();
+    const rawIp = ((req.headers['x-vercel-forwarded-for'] as string) || (req.headers['x-forwarded-for'] as string) || req.socket?.remoteAddress || '').split(',')[0].trim();
     const ip = escapeHtml(rawIp).slice(0, 50);
 
     const regionCountryText = [region, country].filter(Boolean).join(', ') || 'Unknown region/country';
-    const cityEstimate = city === 'Unknown City' ? 'Unavailable' : city;
+    const cityEstimate = city === 'Unknown' ? 'Unavailable' : city;
 
     // 6. Check environment configuration
     const apiKey = process.env.RESEND_API_KEY;
@@ -171,17 +195,20 @@ export default async function handler(req: any, res: any) {
 
               <div class="section-title">IP-based location</div>
               <div class="data-row">
-                <span class="label">Region code</span>
+                <span class="label">Region</span>
                 <span class="value location-primary">${region || 'Unavailable'}</span>
               </div>
               <div class="data-row">
-                <span class="label">Country Code</span>
-                <span class="value location-primary">${country}</span>
+                <span class="label">Country</span>
+                <span class="value location-primary">${country || 'Unavailable'}${countryCode ? ` (${countryCode})` : ''}</span>
               </div>
               <div class="data-row">
-                <span class="label">City estimate</span>
+                <span class="label">City (IP estimate)</span>
                 <span class="value">${cityEstimate}</span>
               </div>
+              <p style="margin-top: 12px; color: #94a3b8; font-size: 12px;">
+                IP location can be shifted by VPNs or mobile networks.
+              </p>
               <div class="data-row">
                 <span class="label">IP Address</span>
                 <span class="value">${ip}</span>
@@ -226,6 +253,7 @@ export default async function handler(req: any, res: any) {
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
+        'Idempotency-Key': await createVisitorIdempotencyKey(apiKey, rawIp),
       },
       body: JSON.stringify({
         from: 'Portfolio Alerts <onboarding@resend.dev>',
@@ -234,6 +262,10 @@ export default async function handler(req: any, res: any) {
         html: emailHtml,
       }),
     });
+
+    if (resendResponse.status === 409) {
+      return res.status(200).json({ status: 'rate-limited' });
+    }
 
     if (!resendResponse.ok) {
       const errText = await resendResponse.text();

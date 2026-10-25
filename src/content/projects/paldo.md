@@ -1,11 +1,10 @@
 ---
 title: "Paldo"
-summary: "A scholarship portal for students and local providers to match eligibility, submit applications, upload documents, and track review status."
+summary: "A scholarship portal for eligibility checks, applications, document uploads, and review tracking."
 featured: true
 order: 4
 role: "Backend Developer"
 period: "2026"
-kicker: "Team capstone / Backend Developer"
 image: "/assets/projects/paldo.png"
 techStack: ["ASP.NET Core", "React", "PostgreSQL", "Entity Framework Core", "Docker", "JWT"]
 githubUrl: "https://github.com/pak-pow/OpenIT_Capstone.git"
