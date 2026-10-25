@@ -130,7 +130,8 @@ export default async function handler(req: any, res: any) {
     const rawIp = ((req.headers['x-vercel-forwarded-for'] as string) || (req.headers['x-forwarded-for'] as string) || req.socket?.remoteAddress || '').split(',')[0].trim();
     const ip = escapeHtml(rawIp).slice(0, 50);
 
-    const locationText = [region, country].filter(Boolean).join(', ') || 'Unknown region and country';
+    const regionCountryText = [region, country].filter(Boolean).join(', ') || 'Unknown region/country';
+    const cityEstimate = city === 'Unknown' ? 'Unavailable' : city;
 
     // 6. Check environment configuration
     const apiKey = process.env.RESEND_API_KEY;
@@ -139,14 +140,15 @@ export default async function handler(req: any, res: any) {
     if (!apiKey) {
       console.warn('[Telemetry] RESEND_API_KEY environment variable is not configured. Visitor payload:', {
         platform,
-        location: locationText,
+        location: regionCountryText,
+        cityEstimate,
         deviceType,
         ip,
       });
       return res.status(200).json({ status: 'ok', warning: 'RESEND_API_KEY not configured' });
     }
 
-    const emailSubject = sanitizeSubject(`Portfolio Visit: ${platform} (${locationText})`);
+    const emailSubject = sanitizeSubject(`Portfolio Visit: ${platform} (${regionCountryText})`);
 
     const emailHtml = `
       <!DOCTYPE html>
@@ -165,6 +167,7 @@ export default async function handler(req: any, res: any) {
             .data-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1e293b; font-size: 14px; }
             .label { color: #94a3b8; }
             .value { color: #f1f5f9; font-weight: 500; text-align: right; word-break: break-word; max-width: 65%; }
+            .location-primary { color: #7dd3fc; font-size: 15px; font-weight: 700; }
             .badge { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 12px; font-weight: 600; background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
             .footer { padding: 16px 24px; background: #0c1222; font-size: 11px; text-align: center; color: #64748b; border-top: 1px solid #1e293b; }
           </style>
@@ -190,18 +193,18 @@ export default async function handler(req: any, res: any) {
                 <span class="value"><code>${path}</code></span>
               </div>
 
-              <div class="section-title">Approximate Visitor Location</div>
+              <div class="section-title">IP-based location</div>
               <div class="data-row">
-                <span class="label">City (IP estimate)</span>
-                <span class="value">${city}</span>
-              </div>
-              <div class="data-row">
-                <span class="label">Region (IP estimate)</span>
-                <span class="value"><strong>${region || 'Unknown'}</strong></span>
+                <span class="label">Region</span>
+                <span class="value location-primary">${region || 'Unavailable'}</span>
               </div>
               <div class="data-row">
                 <span class="label">Country</span>
-                <span class="value"><strong>${country || 'Unknown'}</strong>${countryCode ? ` (${countryCode})` : ''}</span>
+                <span class="value location-primary">${country || 'Unavailable'}${countryCode ? ` (${countryCode})` : ''}</span>
+              </div>
+              <div class="data-row">
+                <span class="label">City (IP estimate)</span>
+                <span class="value">${cityEstimate}</span>
               </div>
               <p style="margin-top: 12px; color: #94a3b8; font-size: 12px;">
                 IP location can be shifted by VPNs or mobile networks.
