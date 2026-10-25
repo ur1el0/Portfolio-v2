@@ -10,7 +10,7 @@ image: "/assets/projects/scrib.png"
 techStack: ["React 19", "TypeScript", "Tailwind CSS", "Django", "Django Channels", "Daphne", "SQLite"]
 githubUrl: "https://github.com/ur1el0/Scrib"
 liveUrl: "https://scrib-ni-roosc.vercel.app"
-metrics: ["TWL06 Dictionary Validation", "Trie-Backed Missed-Word Solver", "WebSocket Multiplayer Rooms"]
+metrics: ["TWL06 Dictionary Validation", "Post-Round Missed-Word Solver", "WebSocket Multiplayer Rooms"]
 ---
 
 ## Context
@@ -24,7 +24,7 @@ The MSEUF English Festival uses timed Boggle-style rounds, so players need to pr
 ## Technical approach
 * **Real-time State Sync:** Django Channels broadcasts room state and game events to connected players over WebSockets.
 * **Word Validation:** The backend checks dictionary membership and uses depth-first search to confirm a word follows adjacent board cells without reusing a tile.
-* **Missed-Word Solver:** A Trie-backed depth-first search finds valid words on the board for the post-round summary.
+* **Missed-Word Solver:** Finds valid TWL06 words on the round's board and includes words players missed in the post-round summary.
 * **Client Architecture:** The React and TypeScript client renders the board, timer, input, and scores from the room's live events.
 
 ## Security and verification

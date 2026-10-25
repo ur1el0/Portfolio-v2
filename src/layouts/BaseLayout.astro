@@ -8,20 +8,26 @@ interface Props {
 }
 
 const {
-  title = 'Roosc Zaño — Backend Developer & Systems Architect',
-  description = 'Roosc Zaño is a BSIT Backend Developer specializing in Django REST Framework, ASP.NET Core, PostgreSQL, and Docker.',
+  title = 'Roosc Zaño | Backend Developer & BSIT Student',
+  description = 'Roosc Zaño is an Information Technology student and backend-focused developer in the Philippines, building REST APIs and web applications with Django, ASP.NET Core, React, and PostgreSQL.',
 } = Astro.props;
+
+const personDescription = 'Roosc Zaño is a BS Information Technology student at Manuel S. Enverga University Foundation and a backend-focused developer building REST APIs and web applications.';
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const personSchema = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': 'https://roosc-zano.vercel.app/#person',
   name: 'Roosc Zaño',
-  jobTitle: 'Backend Developer',
-  alumniOf: {
+  url: 'https://roosc-zano.vercel.app/',
+  image: 'https://roosc-zano.vercel.app/assets/hero/profile.jpg',
+  jobTitle: 'Information Technology Student and Backend Developer',
+  affiliation: {
     '@type': 'EducationalOrganization',
     name: 'Manuel S. Enverga University Foundation',
   },
-  description: description,
+  description: personDescription,
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Lucena',
@@ -52,14 +58,16 @@ const personSchema = JSON.stringify({
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/assets/favicon.png" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL.href} />
 
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content="Roosc Zaño" />
+    <meta name="google-site-verification" content="aZ6z3MLFpL2x44lxbzBEYxHVemP2nkXDMsR-Fh6erZ4" />
     <meta name="keywords" content="Roosc Zaño, Roosc Zano, Backend Developer Lucena, Enverga University BSIT, Django REST, ASP.NET Core, PostgreSQL, Docker, Developer Portfolio" />
 
-    <!-- Google Personal SEO Entity Schema -->
+    <!-- Person identity data stays consistent across portfolio pages. -->
     <script type="application/ld+json" is:inline set:html={personSchema} />
 
     <!-- Theme Initialization Script (Prevents Flickering) -->
