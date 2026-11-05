@@ -4,6 +4,8 @@
  * Captures edge geolocation and sends an alert email via Resend with hardened security controls.
  */
 
+import { consumeVisitorAlertRequest } from '../src/lib/visitor-alert-rate-limit';
+
 declare const process: { env: Record<string, string | undefined> };
 
 const VISITOR_ALERT_BUCKET_MS = 160 * 60 * 1000;
@@ -37,11 +39,13 @@ async function createVisitorIdempotencyKey(apiKey: string, scope: string): Promi
 }
 
 const ALLOWED_ORIGIN_PATTERNS = [
-  /^https?:\/\/localhost(:\d+)?$/,
-  /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
   /^https:\/\/roosc-zano\.vercel\.app$/,
   /^https:\/\/roosczano\.vercel\.app$/,
-  /^https:\/\/.*roosc-zano.*\.vercel\.app$/,
+];
+
+const LOCAL_ORIGIN_PATTERNS = [
+  /^http:\/\/localhost(:\d+)?$/,
+  /^http:\/\/127\.0\.0\.1(:\d+)?$/,
 ];
 
 function isOriginAllowed(originHeader?: string, refererHeader?: string): boolean {
@@ -54,7 +58,9 @@ function isOriginAllowed(originHeader?: string, refererHeader?: string): boolean
       return false;
     }
   }
-  return ALLOWED_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin));
+  return ALLOWED_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin))
+    || (process.env.NODE_ENV !== 'production'
+      && LOCAL_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin)));
 }
 
 export default async function handler(req: any, res: any) {
@@ -102,8 +108,38 @@ export default async function handler(req: any, res: any) {
       }
     }
 
-    if (!body || typeof body !== 'object') {
+    if (
+      !body
+      || typeof body !== 'object'
+      || Array.isArray(body)
+      || typeof body.platform !== 'string'
+      || typeof body.path !== 'string'
+      || typeof body.timestamp !== 'string'
+    ) {
       return res.status(400).json({ error: 'Invalid request payload' });
+    }
+
+    const clientIp = (
+      (req.headers['x-vercel-forwarded-for'] as string | undefined)
+      || (req.headers['x-forwarded-for'] as string | undefined)
+      || ''
+    ).split(',')[0].trim();
+
+    if (!clientIp) {
+      return res.status(503).json({ error: 'Visitor alerts temporarily unavailable' });
+    }
+
+    const rateLimit = await consumeVisitorAlertRequest(clientIp);
+    if (rateLimit.status === 'unavailable') {
+      console.error('[Telemetry] Shared request limiter unavailable; visitor alert was not sent.');
+      return res.status(503).json({ error: 'Visitor alerts temporarily unavailable' });
+    }
+    if (rateLimit.status === 'limited') {
+      res.setHeader('Retry-After', String(rateLimit.retryAfterSeconds));
+      return res.status(429).json({
+        status: 'rate-limited',
+        retryAfterSeconds: rateLimit.retryAfterSeconds,
+      });
     }
 
     // 4. Sanitize and HTML-encode all incoming untrusted client parameters
