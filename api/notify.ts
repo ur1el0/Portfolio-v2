@@ -57,6 +57,11 @@ export default async function handler(req: any, res: any) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Keep public visitor alerts disabled unless deliberately re-enabled after abuse protection is in place.
+  if (process.env.PORTFOLIO_ALERTS_ENABLED !== 'true') {
+    return res.status(200).json({ status: 'disabled' });
+  }
+
   // 2. Validate Origin & Referer to block unauthorized cross-site spam
   const origin = req.headers['origin'] as string | undefined;
   const referer = req.headers['referer'] as string | undefined;
