@@ -6,6 +6,8 @@
 
 declare const process: { env: Record<string, string | undefined> };
 
+const VISITOR_ALERT_BUCKET_MS = 160 * 60 * 1000;
+
 function escapeHtml(value: unknown): string {
   if (typeof value !== 'string') return '';
   return value
@@ -20,7 +22,7 @@ function sanitizeSubject(value: string): string {
   return value.replace(/[\r\n]+/g, ' ').trim();
 }
 
-async function createVisitorIdempotencyKey(apiKey: string, ip: string): Promise<string> {
+async function createVisitorIdempotencyKey(apiKey: string, scope: string): Promise<string> {
   const encoder = new TextEncoder();
   const key = await crypto.subtle.importKey(
     'raw',
@@ -29,7 +31,7 @@ async function createVisitorIdempotencyKey(apiKey: string, ip: string): Promise<
     false,
     ['sign'],
   );
-  const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(ip || 'unknown'));
+  const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(scope));
   const digest = Array.from(new Uint8Array(signature), (byte) => byte.toString(16).padStart(2, '0')).join('');
   return `portfolio-visitor-${digest}`;
 }
@@ -43,10 +45,14 @@ const ALLOWED_ORIGIN_PATTERNS = [
 ];
 
 function isOriginAllowed(originHeader?: string, refererHeader?: string): boolean {
-  const origin = originHeader || (refererHeader ? new URL(refererHeader).origin : undefined);
+  let origin = originHeader;
   if (!origin) {
-    // Direct or same-origin serverless requests without explicit Origin
-    return true;
+    if (!refererHeader) return false;
+    try {
+      origin = new URL(refererHeader).origin;
+    } catch {
+      return false;
+    }
   }
   return ALLOWED_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin));
 }
@@ -253,12 +259,17 @@ export default async function handler(req: any, res: any) {
       </html>
     `;
 
+    const rateLimitBucket = Math.floor(Date.now() / VISITOR_ALERT_BUCKET_MS);
+    const retryAfterSeconds = Math.max(
+      1,
+      Math.ceil(((rateLimitBucket + 1) * VISITOR_ALERT_BUCKET_MS - Date.now()) / 1000),
+    );
     const resendResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'Idempotency-Key': await createVisitorIdempotencyKey(apiKey, rawIp),
+        'Idempotency-Key': await createVisitorIdempotencyKey(apiKey, `portfolio-alert-${rateLimitBucket}`),
       },
       body: JSON.stringify({
         from: 'Portfolio Alerts <onboarding@resend.dev>',
@@ -269,7 +280,8 @@ export default async function handler(req: any, res: any) {
     });
 
     if (resendResponse.status === 409) {
-      return res.status(200).json({ status: 'rate-limited' });
+      res.setHeader('Retry-After', String(retryAfterSeconds));
+      return res.status(429).json({ status: 'rate-limited', retryAfterSeconds });
     }
 
     if (!resendResponse.ok) {
