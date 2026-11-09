@@ -4,7 +4,7 @@
  * Captures edge geolocation and sends an alert email via Resend with hardened security controls.
  */
 
-import { consumeVisitorAlertRequest } from '../src/lib/visitor-alert-rate-limit';
+import { consumeVisitorAlertRequest } from '../src/lib/visitor-alert-rate-limit.js';
 
 declare const process: { env: Record<string, string | undefined> };
 
