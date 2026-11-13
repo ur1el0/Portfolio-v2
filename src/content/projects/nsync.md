@@ -1,12 +1,12 @@
 ---
 title: "NSync"
-summary: "An Android study app for notes, flashcards, quizzes, and learning progress."
+summary: "An Android learning app for notes, linked flashcards, review sessions, and progress tracking."
 featured: true
-order: 5
-role: "Solo Android Final Project"
-period: "2026"
+order: 4
+role: "Android Project"
+period: "May - Jun 2026"
 image: "/assets/projects/nsync.png"
-techStack: ["Kotlin", "Jetpack Compose", "Django REST Framework", "PostgreSQL", "Retrofit", "DataStore"]
+techStack: ["Kotlin", "Jetpack Compose", "Python", "Django REST Framework", "PostgreSQL", "Docker"]
 githubUrl: "https://github.com/ur1el0/NSync.git"
 metrics: ["Notes, Flashcards & Review Sessions", "Native Jetpack Compose UI", "XP, Streak & Mastery Tracking"]
 ---
@@ -15,9 +15,8 @@ metrics: ["Notes, Flashcards & Review Sessions", "Native Jetpack Compose UI", "X
 Students need a simple way to capture ideas, turn them into review cards, and see how their learning changes over time. NSync organizes notes, flashcards, review sessions, and progress in one Android app.
 
 ## What I built
-* Developed a native Android application in Kotlin and Jetpack Compose for notes, flashcards, review sessions, dashboard, profile, and mastery views.
-* Built a Django REST Framework API backed by PostgreSQL for registration, authentication, user-owned notes, flashcards, review outcomes, and progress.
-* Added XP, accuracy, streak, and mastery updates after review sessions, plus local review preferences and scheduled reminders.
+* Built an Android learning app for notes, linked flashcards, review sessions, and progress tracking.
+* Implemented authenticated app-to-backend flows, review-result calculation, duplicate-answer checks, and note-level card counts.
 
 ## Technical approach
 * Compose screens communicate through ViewModels and repositories, with Retrofit and OkHttp carrying requests to the backend.

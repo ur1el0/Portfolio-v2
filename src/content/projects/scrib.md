@@ -3,10 +3,10 @@ title: "Scrib"
 summary: "A multiplayer word game with timed 4×4 dice rounds and server-validated scoring."
 featured: true
 order: 2
-role: "Solo Developer"
+role: "Personal Project"
 period: "August - September 2026"
 image: "/assets/projects/scrib.png"
-techStack: ["React 19", "TypeScript", "Tailwind CSS", "Django", "Django Channels", "Daphne", "SQLite"]
+techStack: ["Python", "Django REST Framework", "Django Channels", "WebSockets", "React", "SQLite"]
 githubUrl: "https://github.com/ur1el0/Scrib"
 liveUrl: "https://scrib-ni-roosc.vercel.app"
 metrics: ["TWL06 Dictionary Validation", "Tile-Based Missed-Word Solver", "WebSocket Multiplayer Rooms"]
@@ -16,8 +16,8 @@ metrics: ["TWL06 Dictionary Validation", "Tile-Based Missed-Word Solver", "WebSo
 Scrib is a practice game for timed word-building rounds at the MSEUF English Festival. Players use the letters on a shared 4x4 dice board to form words in any order, using each tile once. Synchronized rooms support up to four players.
 
 ## What I built
-* Built multiplayer rooms with a shared randomized 4x4 dice board, a three-minute round timer, and live score updates.
-* Implemented server-side word validation against the TWL06 dictionary and scoring at one point per letter.
+* Used an agentic development workflow with OpenAI Codex and Google Antigravity to build multiplayer rooms with a shared randomized 4x4 dice board, timed rounds, and live score updates.
+* Guided and reviewed server-side validation against the TWL06 dictionary, with each board tile usable once and Q supplying QU.
 * Added a post-round solver that lists playable words players missed, ordered by score and then alphabetically.
 
 ## Technical approach
