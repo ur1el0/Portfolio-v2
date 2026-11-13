@@ -1,12 +1,12 @@
 ---
 title: "KapitBayan"
-summary: "A barangay service platform for document requests, queues, assistance, incident reports, and public updates."
+summary: "A barangay services platform for resident requests, queues, assistance, and incident reporting."
 featured: true
 order: 1
-role: "Lead Backend Developer"
-period: "2026 - Present"
+role: "Full-Stack Developer"
+period: "Jan - Nov 2026"
 image: "/assets/projects/gridy.png"
-techStack: ["Django REST Framework", "React", "Flutter", "PostgreSQL", "Docker", "Firebase FCM", "Cloudinary"]
+techStack: ["Python", "Django REST Framework", "React", "PostgreSQL", "Flutter (Dart)"]
 githubUrl: "https://github.com/ur1el0/KapitBayan"
 liveUrl: "https://gridy-nine.vercel.app"
 metrics: ["Resident & Staff Service Workflows", "React Web + Flutter Mobile", "Protected Evidence & Push Notifications"]
@@ -16,9 +16,8 @@ metrics: ["Resident & Staff Service Workflows", "React Web + Flutter Mobile", "P
 Residents need a place to request barangay services and follow their status, while staff need scoped tools for document requests, queues, incidents, assistance, and public updates. The platform connects these workflows across web and mobile clients while protecting resident records.
 
 ## What I built
-* Built Django REST Framework endpoints for document requests, fee assessment, queue services, assistance requests, incident reports, and public information.
-* Developed a React web portal for resident and staff workflows and a Flutter mobile app for residents and field personnel.
-* Integrated Cloudinary-backed evidence storage and Firebase Cloud Messaging for request-status and queue notifications, with private media served through authenticated backend views.
+* Led full-stack development of resident and staff workflows for document requests, queues, assistance, and incident reporting.
+* Implemented resident transfer and document-payment workflows, barangay-scoped access, protected media, and Firebase notifications across the React web portal and Flutter mobile app.
 
 ## Technical approach
 * Django migrations define the relational data model, while the generated OpenAPI schema documents the API contracts used by the React and Flutter clients.

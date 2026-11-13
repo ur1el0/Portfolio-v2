@@ -1,12 +1,12 @@
 ---
-title: "Lock-Ad v3"
+title: "Lock-Ad"
 summary: "A walking-route app for Philippine commuters, with local context on lighting, infrastructure, weather, and community reports."
 featured: true
-order: 3
-role: "Solo Developer"
-period: "2025 - Present"
+order: 5
+role: "Personal Project"
+period: "Sep 2025 - Present"
 image: "/assets/projects/lockad.png"
-techStack: ["Django REST Framework", "React", "OpenRouteService", "SQLite", "Docker Compose"]
+techStack: ["Python", "Django REST Framework", "React", "Leaflet", "OpenRouteService", "Docker", "Gemini"]
 githubUrl: "https://github.com/ur1el0/Lock-Ad-v3.git"
 metrics: ["Walking Route Previews", "OpenRouteService Integration", "Session Auth + CSRF"]
 ---

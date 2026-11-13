@@ -2,11 +2,11 @@
 title: "Paldo"
 summary: "A scholarship portal for eligibility checks, applications, document uploads, and review tracking."
 featured: true
-order: 4
-role: "Backend Developer"
+order: 3
+role: "Backend Contributor"
 period: "2026"
 image: "/assets/projects/paldo.png"
-techStack: ["ASP.NET Core", "React", "PostgreSQL", "Entity Framework Core", "Docker", "JWT"]
+techStack: ["C#", "ASP.NET Core", "React", "PostgreSQL", "Docker"]
 githubUrl: "https://github.com/pak-pow/OpenIT_Capstone.git"
 liveUrl: "https://paldos.vercel.app"
 metrics: ["Scholarship Eligibility Matching", "Student & Admin Workflows", "ASP.NET Core REST API"]
@@ -16,9 +16,8 @@ metrics: ["Scholarship Eligibility Matching", "Student & Admin Workflows", "ASP.
 Local scholarship programs need one workflow for publishing opportunities, checking student eligibility, receiving applications, and keeping applicants informed as submissions are reviewed.
 
 ## What I built
-* Built ASP.NET Core REST endpoints for student profiles, scholarship programs, applications, and supporting documents.
-* Implemented eligibility matching against profile criteria such as GWA, household income, course, and barangay.
-* Developed React student and administrator interfaces for browsing programs, submitting applications, and managing scholarship records.
+* Restricted scholarship application status changes to authorized roles, sanitized application data, and added an API health check.
+* Added backend authentication and tests, improved application-modal accessibility, and removed tracked build artifacts.
 
 ## Technical approach
 * ASP.NET Core services separate HTTP controllers from scholarship, eligibility, and application workflows.

@@ -8,11 +8,11 @@ interface Props {
 }
 
 const {
-  title = 'Roosc Zaño | Backend Developer & BSIT Student',
-  description = 'Roosc Zaño is a BS Information Technology student and backend developer in Lucena, Philippines, building REST APIs and full-stack applications.',
+  title = 'Roosc Zaño | Software Developer Intern',
+  description = 'Roosc Zaño is a backend-focused BSIT student in Lucena, Philippines, building REST APIs and web and mobile applications with Django REST Framework and ASP.NET Core.',
 } = Astro.props;
 
-const personDescription = 'Roosc Zaño is a BS Information Technology student at Manuel S. Enverga University Foundation in Lucena, Philippines, building backend services and full-stack applications.';
+const personDescription = 'Roosc Zaño is a backend-focused BS Information Technology student at Manuel S. Enverga University Foundation in Lucena, Philippines, building REST APIs and web and mobile applications with Django REST Framework and ASP.NET Core.';
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const personSchema = JSON.stringify({
@@ -22,7 +22,7 @@ const personSchema = JSON.stringify({
   name: 'Roosc Zaño',
   url: 'https://roosc-zano.vercel.app/',
   image: 'https://roosc-zano.vercel.app/assets/hero/profile.jpg',
-  jobTitle: 'Information Technology Student and Backend Developer',
+  jobTitle: 'Software Developer Intern',
   affiliation: {
     '@type': 'EducationalOrganization',
     name: 'Manuel S. Enverga University Foundation',
@@ -40,13 +40,23 @@ const personSchema = JSON.stringify({
     'https://linktr.ee/roosczano',
   ],
   knowsAbout: [
+    'Python',
+    'C#',
+    'JavaScript',
+    'TypeScript',
+    'Kotlin',
+    'SQL',
     'Django REST Framework',
     'ASP.NET Core',
     'React',
     'PostgreSQL',
+    'SQLite',
+    'Entity Framework Core',
+    'Jetpack Compose',
     'Flutter',
     'Docker',
-    'Microsoft Azure',
+    'OpenAI Codex',
+    'Google Antigravity',
   ],
 });
 ---
