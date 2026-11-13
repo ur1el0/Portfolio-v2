@@ -9,46 +9,22 @@ import { getCollection } from 'astro:content';
 const projects = await getCollection('projects');
 const sortedProjects = projects.sort((a, b) => a.data.order - b.data.order);
 
-const selectedHighlights = [
+const awardsAndParticipations = [
   {
-    title: 'Microsoft Certified: Azure Fundamentals (AZ-900)',
-    issuer: 'Microsoft',
-    date: 'Jul 2026',
-    description: 'Cloud concepts, Azure architecture and services, identity, networking, and security fundamentals.',
-    fileHref: '/assets/certifications/az900-cert.pdf',
-  },
-  {
-    title: 'Applied Full Stack and Data Science Bootcamp · Top Performer',
-    issuer: 'Open iT · Full Stack Development Track',
-    date: 'May & Jun 2026',
-    description: 'ASP.NET Core, React, SQL databases, REST APIs, Docker, and team-based software delivery.',
+    title: 'Top Performer — Applied Full Stack and Data Science Bootcamp',
+    issuer: 'Open iT · Enverga University',
+    date: 'May 2026',
+    description: 'Recognized as a top performer in the full-stack development track.',
     fileHref: '/assets/participation/topPerformer.jpg',
+    previewType: 'image',
   },
   {
-    title: 'Django Web Framework',
-    issuer: 'Meta · Coursera',
-    date: 'Apr 2026',
-    description: 'Web servers, data modeling, ORM, migrations, and web security.',
-  },
-  {
-    title: 'Tools of the Trade: Linux and SQL',
-    issuer: 'Google · Coursera',
-    date: 'Apr 2026',
-    description: 'Linux command-line basics, file and user permissions, and SQL filtering and joins.',
-  },
-  {
-    title: 'Operating System Virtualization',
-    issuer: 'Illinois Institute of Technology · Coursera',
-    date: 'Nov 2025',
-    description: 'Coursework in hypervisors, virtual machines, and virtual networking.',
-    fileHref: '/assets/certifications/Coursera-os-cert.pdf',
-  },
-  {
-    title: 'Database Design and Basic SQL in PostgreSQL',
-    issuer: 'University of Michigan · Coursera',
+    title: 'Participant — Inventi Hackathon Challenge',
+    issuer: 'Inventi',
     date: 'Oct 2025',
-    description: 'Relational data modeling, schema design, PostgreSQL tables, and SQL queries.',
-    fileHref: '/assets/certifications/Coursera-postgres-cert.pdf',
+    description: 'Participated in the Inventi Hackathon Challenge.',
+    fileHref: '/assets/participation/inventi.jpg',
+    previewType: 'image',
   },
   {
     title: 'Team Leader & Participant — DLSU HackerCup',
@@ -56,6 +32,56 @@ const selectedHighlights = [
     date: 'Aug 2025',
     description: 'Led a team in a 24-hour civic-tech hackathon.',
     fileHref: '/assets/participation/hackercup.pdf',
+    previewType: 'document',
+  },
+];
+
+const trainingAndCoursework = [
+  {
+    title: 'Microsoft Certified: Azure Fundamentals (AZ-900)',
+    issuer: 'Microsoft',
+    date: 'Jul 2026',
+    description: 'Cloud concepts, Azure architecture and services, identity, networking, and security fundamentals.',
+    fileHref: '/assets/certifications/az900-cert.pdf',
+    previewType: 'document',
+  },
+  {
+    title: 'Applied Full Stack and Data Science Bootcamp',
+    issuer: 'Open iT · Full Stack Development Track',
+    date: 'May 2026',
+    description: 'ASP.NET Core, React, SQL databases, REST APIs, Docker, and team-based software delivery.',
+  },
+  {
+    title: 'Django Web Framework',
+    issuer: 'Meta · Coursera',
+    date: 'Apr 2026',
+    description: 'Web servers, data modeling, ORM, migrations, and web security.',
+    fileHref: '/assets/certifications/django-web-framework-cert.jpg',
+    previewType: 'image',
+  },
+  {
+    title: 'Tools of the Trade: Linux and SQL',
+    issuer: 'Google · Coursera',
+    date: 'Apr 2026',
+    description: 'Linux command-line basics, file and user permissions, and SQL filtering and joins.',
+    fileHref: '/assets/certifications/tools-of-the-trade-linux-sql-cert.jpg',
+    previewType: 'image',
+  },
+  {
+    title: 'Operating System Virtualization',
+    issuer: 'Illinois Institute of Technology · Coursera',
+    date: 'Nov 2025',
+    description: 'Coursework in hypervisors, virtual machines, and virtual networking.',
+    fileHref: '/assets/certifications/Coursera-os-cert.pdf',
+    previewType: 'document',
+  },
+  {
+    title: 'Database Design and Basic SQL in PostgreSQL',
+    issuer: 'University of Michigan · Coursera',
+    date: 'Oct 2025',
+    description: 'Relational data modeling, schema design, PostgreSQL tables, and SQL queries.',
+    fileHref: '/assets/certifications/Coursera-postgres-cert.pdf',
+    previewType: 'document',
   },
   {
     title: 'Flutter and Dart: Developing iOS, Android, and Mobile Apps',
@@ -63,7 +89,13 @@ const selectedHighlights = [
     date: 'May 2025',
     description: 'Introductory Flutter and Dart: widgets, state, APIs, and app persistence.',
     fileHref: '/assets/certifications/Coursera-flutter&dart-cert.pdf',
+    previewType: 'document',
   },
+];
+
+const credentialGroups = [
+  { title: 'Awards & Participations', items: awardsAndParticipations },
+  { title: 'Training & Relevant Coursework', items: trainingAndCoursework },
 ];
 ---
 
@@ -159,36 +191,120 @@ const selectedHighlights = [
             </div>
           </div>
 
-          <div>
-            <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-accent-cyan mb-3">Selected Credentials & Recognition</h3>
-            <ul class="divide-y divide-border-subtle/20">
-              {selectedHighlights.map((item) => (
-                <li class="flex items-start justify-between gap-4 py-3 first:pt-0 last:pb-0">
-                  <div class="min-w-0">
-                    <p class="text-sm font-medium text-slate-200">{item.title}</p>
-                    <p class="mt-1 text-xs leading-relaxed text-slate-400">{item.description}</p>
-                    <p class="mt-1 text-xs text-slate-500">{item.issuer}</p>
-                  </div>
-                  <div class="flex shrink-0 flex-col items-end gap-1 text-right">
-                    <span class="text-xs font-mono text-slate-500">{item.date}</span>
-                    {item.fileHref && (
-                      <a
-                        class="text-xs font-mono text-accent-cyan underline hover:text-accent-cyan/80"
-                        href={item.fileHref}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`View ${item.title}`}
-                      >
-                        View
-                      </a>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {credentialGroups.map((group) => (
+            <div>
+              <h3 class="mb-3 text-xs font-mono font-semibold uppercase tracking-wider text-accent-cyan">{group.title}</h3>
+              <ul class="divide-y divide-border-subtle/20">
+                {group.items.map((item) => (
+                  <li class="flex items-start justify-between gap-4 py-3 first:pt-0 last:pb-0">
+                    <div class="min-w-0">
+                      <p class="text-sm font-medium text-slate-200">{item.title}</p>
+                      <p class="mt-1 text-xs leading-relaxed text-slate-400">{item.description}</p>
+                      <p class="mt-1 text-xs text-slate-500">{item.issuer}</p>
+                    </div>
+                    <div class="flex shrink-0 flex-col items-end gap-1 text-right">
+                      <span class="text-xs font-mono text-slate-500">{item.date}</span>
+                      {item.fileHref && (
+                        <button
+                          class="text-xs font-mono text-accent-cyan underline underline-offset-2 hover:text-accent-cyan/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-cyan"
+                          type="button"
+                          data-credential-preview
+                          data-preview-src={item.fileHref}
+                          data-preview-type={item.previewType}
+                          data-preview-title={item.title}
+                          aria-haspopup="dialog"
+                        >
+                          View
+                        </button>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </section>
+
+      <dialog
+        id="credential-preview"
+        class="w-[min(94vw,64rem)] max-w-none overflow-hidden rounded-lg border border-border-subtle bg-bg-dark p-0 text-slate-200 shadow-2xl"
+        aria-label="Credential preview"
+      >
+        <div class="flex max-h-[92vh] flex-col">
+          <div class="flex items-center justify-between gap-4 border-b border-border-subtle/40 px-4 py-3">
+            <h2 class="min-w-0 truncate text-sm font-medium" data-preview-heading>Credential preview</h2>
+            <button
+              class="flex size-8 shrink-0 items-center justify-center rounded-md text-slate-400 hover:bg-bg-surface hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-cyan"
+              type="button"
+              data-close-preview
+              aria-label="Close certificate preview"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="m6 6 12 12M18 6 6 18" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
+          <div class="min-h-0 overflow-auto bg-bg-surface/30 p-3">
+            <iframe class="hidden h-[76vh] w-full rounded-sm bg-white" data-preview-document title="Credential document"></iframe>
+            <img class="hidden max-h-[76vh] w-full object-contain" data-preview-image alt="Credential certificate" />
+          </div>
+        </div>
+      </dialog>
+
+      <script>
+        const credentialDialog = document.querySelector<HTMLDialogElement>('#credential-preview');
+        const previewHeading = credentialDialog?.querySelector<HTMLElement>('[data-preview-heading]');
+        const previewDocument = credentialDialog?.querySelector<HTMLIFrameElement>('[data-preview-document]');
+        const previewImage = credentialDialog?.querySelector<HTMLImageElement>('[data-preview-image]');
+
+        document.querySelectorAll<HTMLButtonElement>('[data-credential-preview]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const src = button.dataset.previewSrc;
+            if (!credentialDialog || !src || !previewDocument || !previewImage || !previewHeading) return;
+
+            const title = button.dataset.previewTitle ?? 'Credential preview';
+            previewHeading.textContent = title;
+
+            if (button.dataset.previewType === 'image') {
+              previewDocument.src = 'about:blank';
+              previewDocument.classList.add('hidden');
+              previewImage.src = src;
+              previewImage.alt = `${title} certificate`;
+              previewImage.classList.remove('hidden');
+            } else {
+              previewImage.removeAttribute('src');
+              previewImage.classList.add('hidden');
+              previewDocument.src = src;
+              previewDocument.title = `${title} certificate`;
+              previewDocument.classList.remove('hidden');
+            }
+
+            credentialDialog.showModal();
+            credentialDialog.querySelector<HTMLButtonElement>('[data-close-preview]')?.focus();
+          });
+        });
+
+        credentialDialog?.querySelector<HTMLButtonElement>('[data-close-preview]')?.addEventListener('click', () => {
+          credentialDialog.close();
+        });
+
+        credentialDialog?.addEventListener('click', (event) => {
+          if (event.target === credentialDialog) credentialDialog.close();
+        });
+
+        credentialDialog?.addEventListener('close', () => {
+          if (previewDocument) previewDocument.src = 'about:blank';
+          previewImage?.removeAttribute('src');
+        });
+      </script>
+
+      <style is:global>
+        #credential-preview::backdrop {
+          background: rgb(8 12 20 / 82%);
+          backdrop-filter: blur(4px);
+        }
+      </style>
 
       <Footer />
     </main>
