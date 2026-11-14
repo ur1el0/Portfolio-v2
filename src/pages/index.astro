@@ -263,6 +263,10 @@ const credentialGroups = [
         const previewFallback = credentialDialog?.querySelector<HTMLElement>('[data-preview-fallback]');
         const previewOpenLink = credentialDialog?.querySelector<HTMLAnchorElement>('[data-preview-open]');
 
+        previewImage?.addEventListener('error', () => {
+          previewFallback?.classList.remove('hidden');
+        });
+
         document.querySelectorAll<HTMLButtonElement>('[data-credential-preview]').forEach((button) => {
           button.addEventListener('click', () => {
             const src = button.dataset.previewSrc;
@@ -270,6 +274,7 @@ const credentialGroups = [
 
             const title = button.dataset.previewTitle ?? 'Credential preview';
             previewHeading.textContent = title;
+            if (previewOpenLink) previewOpenLink.href = src;
 
             if (button.dataset.previewType === 'image') {
               previewFallback?.classList.add('hidden');
@@ -284,7 +289,6 @@ const credentialGroups = [
               previewDocument.src = src;
               previewDocument.title = `${title} certificate`;
               previewDocument.classList.remove('hidden');
-              if (previewOpenLink) previewOpenLink.href = src;
               previewFallback?.classList.remove('hidden');
             }
 
