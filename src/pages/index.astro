@@ -249,6 +249,9 @@ const credentialGroups = [
             <iframe class="hidden h-[76vh] w-full rounded-sm bg-white" data-preview-document title="Credential document"></iframe>
             <img class="hidden max-h-[76vh] w-full object-contain" data-preview-image alt="Credential certificate" />
           </div>
+          <p class="hidden border-t border-border-subtle/40 px-4 py-3 text-xs text-slate-400" data-preview-fallback>
+            PDF preview not showing? <a class="text-accent-cyan underline underline-offset-2 hover:text-accent-cyan/80" data-preview-open target="_blank" rel="noopener noreferrer">Open the certificate directly</a>.
+          </p>
         </div>
       </dialog>
 
@@ -257,6 +260,12 @@ const credentialGroups = [
         const previewHeading = credentialDialog?.querySelector<HTMLElement>('[data-preview-heading]');
         const previewDocument = credentialDialog?.querySelector<HTMLIFrameElement>('[data-preview-document]');
         const previewImage = credentialDialog?.querySelector<HTMLImageElement>('[data-preview-image]');
+        const previewFallback = credentialDialog?.querySelector<HTMLElement>('[data-preview-fallback]');
+        const previewOpenLink = credentialDialog?.querySelector<HTMLAnchorElement>('[data-preview-open]');
+
+        previewImage?.addEventListener('error', () => {
+          previewFallback?.classList.remove('hidden');
+        });
 
         document.querySelectorAll<HTMLButtonElement>('[data-credential-preview]').forEach((button) => {
           button.addEventListener('click', () => {
@@ -265,8 +274,10 @@ const credentialGroups = [
 
             const title = button.dataset.previewTitle ?? 'Credential preview';
             previewHeading.textContent = title;
+            if (previewOpenLink) previewOpenLink.href = src;
 
             if (button.dataset.previewType === 'image') {
+              previewFallback?.classList.add('hidden');
               previewDocument.src = 'about:blank';
               previewDocument.classList.add('hidden');
               previewImage.src = src;
@@ -278,6 +289,7 @@ const credentialGroups = [
               previewDocument.src = src;
               previewDocument.title = `${title} certificate`;
               previewDocument.classList.remove('hidden');
+              previewFallback?.classList.remove('hidden');
             }
 
             credentialDialog.showModal();
