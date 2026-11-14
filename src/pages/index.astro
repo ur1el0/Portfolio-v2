@@ -250,7 +250,7 @@ const credentialGroups = [
             <img class="hidden max-h-[76vh] w-full object-contain" data-preview-image alt="Credential certificate" />
           </div>
           <p class="hidden border-t border-border-subtle/40 px-4 py-3 text-xs text-slate-400" data-preview-fallback>
-            PDF preview not showing? <a class="text-accent-cyan underline underline-offset-2 hover:text-accent-cyan/80" data-preview-open target="_blank" rel="noopener noreferrer">Open the certificate directly</a>.
+            Preview not showing? <a class="text-accent-cyan underline underline-offset-2 hover:text-accent-cyan/80" data-preview-open target="_blank" rel="noopener noreferrer">Open the certificate directly</a>.
           </p>
         </div>
       </dialog>
@@ -262,22 +262,31 @@ const credentialGroups = [
         const previewImage = credentialDialog?.querySelector<HTMLImageElement>('[data-preview-image]');
         const previewFallback = credentialDialog?.querySelector<HTMLElement>('[data-preview-fallback]');
         const previewOpenLink = credentialDialog?.querySelector<HTMLAnchorElement>('[data-preview-open]');
+        let previewObjectUrl: string | null = null;
+        let previewRequest = 0;
 
         previewImage?.addEventListener('error', () => {
           previewFallback?.classList.remove('hidden');
         });
 
         document.querySelectorAll<HTMLButtonElement>('[data-credential-preview]').forEach((button) => {
-          button.addEventListener('click', () => {
+          button.addEventListener('click', async () => {
             const src = button.dataset.previewSrc;
             if (!credentialDialog || !src || !previewDocument || !previewImage || !previewHeading) return;
 
+            const requestId = ++previewRequest;
+            if (previewObjectUrl) {
+              URL.revokeObjectURL(previewObjectUrl);
+              previewObjectUrl = null;
+            }
+
             const title = button.dataset.previewTitle ?? 'Credential preview';
+            const isImage = button.dataset.previewType === 'image';
             previewHeading.textContent = title;
             if (previewOpenLink) previewOpenLink.href = src;
+            previewFallback?.classList.add('hidden');
 
-            if (button.dataset.previewType === 'image') {
-              previewFallback?.classList.add('hidden');
+            if (isImage) {
               previewDocument.src = 'about:blank';
               previewDocument.classList.add('hidden');
               previewImage.src = src;
@@ -286,14 +295,27 @@ const credentialGroups = [
             } else {
               previewImage.removeAttribute('src');
               previewImage.classList.add('hidden');
-              previewDocument.src = src;
+              previewDocument.src = 'about:blank';
               previewDocument.title = `${title} certificate`;
               previewDocument.classList.remove('hidden');
-              previewFallback?.classList.remove('hidden');
             }
 
-            credentialDialog.showModal();
+            if (!credentialDialog.open) credentialDialog.showModal();
             credentialDialog.querySelector<HTMLButtonElement>('[data-close-preview]')?.focus();
+
+            if (!isImage) {
+              try {
+                const response = await fetch(src);
+                if (!response.ok) throw new Error(`Certificate request failed: ${response.status}`);
+                const pdf = await response.blob();
+                if (requestId !== previewRequest || !credentialDialog.open) return;
+
+                previewObjectUrl = URL.createObjectURL(new Blob([pdf], { type: 'application/pdf' }));
+                previewDocument.src = previewObjectUrl;
+              } catch {
+                if (requestId === previewRequest) previewFallback?.classList.remove('hidden');
+              }
+            }
           });
         });
 
@@ -306,9 +328,15 @@ const credentialGroups = [
         });
 
         credentialDialog?.addEventListener('close', () => {
+          previewRequest += 1;
+          if (previewObjectUrl) {
+            URL.revokeObjectURL(previewObjectUrl);
+            previewObjectUrl = null;
+          }
           if (previewDocument) previewDocument.src = 'about:blank';
           previewImage?.removeAttribute('src');
         });
+
       </script>
 
       <style is:global>
